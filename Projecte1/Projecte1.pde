@@ -20,6 +20,7 @@ int radius_npcs = 20;
 int radius_pj = 25;
 int radius_PNJ1 = 20;
 int radius_PNJ2 = 15;
+int pj_quadrant;
 
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
@@ -32,7 +33,11 @@ void setup(){ //Se ejecuta una vez al principio
    npc_x[counter] = (int)random(width);
    npc_y[counter] = (int)random(height);  //Ponemos int porque la pantalla no tiene decimales, tiene pixeles
   }
-  //We label NPCs for the QuadTree quadrants
+  //We label NPCs for the QuadTree 
+  //Top left = 1
+  //Top right = 2
+  //Bottom right = 3
+    //Bottom left = 4
   for(int counter = 0; counter < amount_npcs; counter++){ //Si es mouen s'ha de posar al draw perque es repeteixi tota l'estona
    if(npc_x[counter] < width/2.0){
      if(npc_y[counter] < height/2.0) npc_quadrant[counter] = 1;
@@ -79,13 +84,30 @@ void mouseMoved(){
   float magnitude; //vector size = distance between circles
   //boolean collided = false; // No collision by defect
   vector = new float[2];
+  //Updating the PJ quadrant
+  for(int counter = 0; counter < amount_npcs; counter++){ //Si es mouen s'ha de posar al draw perque es repeteixi tota l'estona
+   if(xPJ < width/2.0){
+     if(yPJ < height/2.0) pj_quadrant = 1;
+     else pj_quadrant = 4;
+   }
+   else{
+     if(yPJ < height/2.0) pj_quadrant = 2;
+     else pj_quadrant = 3;
+   }
+  }
+  //We are optimimizing thanks to the QuadTree
   for(int i = 0; i < amount_npcs; i++){
-    vector[0] = npc_x[i] - xPJ;//Vx = NPCx - PJx
-    vector[1] = npc_y[i] - yPJ;//Vy = NPCy - PJy
-    magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
-    if(magnitude < radius_npcs + radius_pj){
-      println("I just collided with ", i);
-      break;
+   //we check the quadrants before the calculations
+    if(pj_quadrant == npc_quadrant[i]){ //Si estan en el mismo quadrante hace los calculos
+      //The calculations
+      vector[0] = npc_x[i] - xPJ;//Vx = NPCx - PJx
+      vector[1] = npc_y[i] - yPJ;//Vy = NPCy - PJy
+      magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
+      //When are we having collisions?
+      if(magnitude < radius_npcs + radius_pj){
+        println("I just collided with ", i);
+        break;
+      }
     }
   }
 }
