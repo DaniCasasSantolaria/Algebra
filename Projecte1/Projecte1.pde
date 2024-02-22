@@ -14,21 +14,35 @@ float xPNJ2 = width / 3;
 float yPNJ2 = height / 3;
 int[] npc_x;
 int[] npc_y;
+int[] npc_quadrant;
 int amount_npcs = 10; // 10 npcs in the scene
 int radius_npcs = 20;
 int radius_pj = 25;
 int radius_PNJ1 = 20;
 int radius_PNJ2 = 15;
+
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
   size(1000, 1000); 
   npc_x = new int [amount_npcs];
   npc_y = new int [amount_npcs];
+  npc_quadrant = new int [amount_npcs];
   //NPCS are randomly located
   for(int counter = 0; counter < amount_npcs; counter++){
    npc_x[counter] = (int)random(width);
    npc_y[counter] = (int)random(height);  //Ponemos int porque la pantalla no tiene decimales, tiene pixeles
- }
+  }
+  //We label NPCs for the QuadTree quadrants
+  for(int counter = 0; counter < amount_npcs; counter++){ //Si es mouen s'ha de posar al draw perque es repeteixi tota l'estona
+   if(npc_x[counter] < width/2.0){
+     if(npc_y[counter] < height/2.0) npc_quadrant[counter] = 1;
+     else npc_quadrant[counter] = 4;
+   }
+   else{
+     if(npc_y[counter] < height/2.0) npc_quadrant[counter] = 2;
+     else npc_quadrant[counter] = 3;
+   }
+  }
 }
 
 void draw(){ //Se ejecuta infinitas veces
@@ -75,5 +89,3 @@ void mouseMoved(){
     }
   }
 }
-
-//DANI
