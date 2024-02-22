@@ -16,7 +16,9 @@ int[] npc_x;
 int[] npc_y;
 int amount_npcs = 10; // 10 npcs in the scene
 int radius_npcs = 20;
-int radius_pj = 20;
+int radius_pj = 25;
+int radius_PNJ1 = 20;
+int radius_PNJ2 = 15;
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
   size(1000, 1000); 
@@ -37,7 +39,7 @@ void draw(){ //Se ejecuta infinitas veces
   xPJ = (1 - alpha) * xPJ + alpha * mouseX;
   yPJ = (1 - alpha) * yPJ + alpha * mouseY;
   }
-  ellipse(xPJ,yPJ, 30.0, 30.0);
+  ellipse(xPJ,yPJ, radius_pj, radius_pj);
   //Pintar al PNJ
   //PNJ = (1 - alpha) * PNJ + alpha * PJ
   fill(255, 255, 45);
@@ -45,13 +47,13 @@ void draw(){ //Se ejecuta infinitas veces
     xPNJ1 = (1 - alpha) * xPNJ1 + alpha * xPJ;
     yPNJ1 = (1 - alpha) * yPNJ1 + alpha * yPJ;
   }
-  ellipse(xPNJ1, yPNJ1, 20.0, 20.0);
+  ellipse(xPNJ1, yPNJ1, radius_PNJ1, radius_PNJ1);
   fill(255, 0, 45);
   if(sqrt((xPNJ1 - xPNJ2)*(xPNJ1 - xPNJ2) + (yPNJ1 - yPNJ2) * (yPNJ1 - yPNJ2)) > 50) {
   xPNJ2 = (1 - alpha) * xPNJ2 + alpha * xPNJ1;
   yPNJ2 = (1 - alpha) * yPNJ2 + alpha * yPNJ1;
   }
-  ellipse(xPNJ2, yPNJ2, 15.0, 15.0);
+  ellipse(xPNJ2, yPNJ2, radius_PNJ2, radius_PNJ2);
   fill(0, 255, 0);
   for(int i = 0; i < amount_npcs; i++){
    ellipse(npc_x[i],npc_y[i], radius_npcs, radius_npcs); 
