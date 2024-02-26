@@ -21,6 +21,7 @@ int radius_pj = 25;
 int radius_PNJ1 = 20;
 int radius_PNJ2 = 15;
 int pj_quadrant;
+boolean enemiesGenerated = false;
 
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
@@ -50,36 +51,15 @@ void setup(){ //Se ejecuta una vez al principio
   }
 }
 
-void draw(){ //Se ejecuta infinitas veces
-  //Pintar el PJ
-  background(0);
-  fill(255, 0, 0);
-  if(sqrt((1 - mouseX)*(1 - mouseX) + (1 - mouseY) * (1 - mouseY)) > 10) {
-  xPJ = (1 - alpha) * xPJ + alpha * mouseX;
-  yPJ = (1 - alpha) * yPJ + alpha * mouseY;
-  }
-  ellipse(xPJ,yPJ, radius_pj, radius_pj);
-  //Pintar al PNJ
-  //PNJ = (1 - alpha) * PNJ + alpha * PJ
-  fill(255, 255, 45);
-  if(sqrt((xPJ - xPNJ1)*(xPJ - xPNJ1) + (yPJ - yPNJ1) * (yPJ - yPNJ1)) > 70) {
-    xPNJ1 = (1 - alpha) * xPNJ1 + alpha * xPJ;
-    yPNJ1 = (1 - alpha) * yPNJ1 + alpha * yPJ;
-  }
-  ellipse(xPNJ1, yPNJ1, radius_PNJ1, radius_PNJ1);
-  fill(255, 0, 45);
-  if(sqrt((xPNJ1 - xPNJ2)*(xPNJ1 - xPNJ2) + (yPNJ1 - yPNJ2) * (yPNJ1 - yPNJ2)) > 50) {
-  xPNJ2 = (1 - alpha) * xPNJ2 + alpha * xPNJ1;
-  yPNJ2 = (1 - alpha) * yPNJ2 + alpha * yPNJ1;
-  }
-  ellipse(xPNJ2, yPNJ2, radius_PNJ2, radius_PNJ2);
-  fill(0, 255, 0);
+void GenerateEnemies(){
+  fill(0,255,0);
   for(int i = 0; i < amount_npcs; i++){
    ellipse(npc_x[i],npc_y[i], radius_npcs, radius_npcs); 
   }
+  //enemiesGenerated = true;    El booleano es per a que s'inicialitzin un cop. Per fer que els enemics es moguin el enemiesGenerated haura de ser true.
 }
 
-void mouseMoved(){
+boolean CheckEnemiesCollisions(){
   float[] vector; //vector from de PJ to any NPC
   float magnitude; //vector size = distance between circles
   //boolean collided = false; // No collision by defect
@@ -106,8 +86,42 @@ void mouseMoved(){
       //When are we having collisions?
       if(magnitude < radius_npcs + radius_pj){
         println("I just collided with ", i);
-        break;
+        return true;
       }
     }
   }
+  return false;
+}
+
+void CharactersMovement(){
+  fill(255, 0, 0);
+  if(sqrt((1 - mouseX)*(1 - mouseX) + (1 - mouseY) * (1 - mouseY)) > 10) {
+  xPJ = (1 - alpha) * xPJ + alpha * mouseX;
+  yPJ = (1 - alpha) * yPJ + alpha * mouseY;
+  }
+  ellipse(xPJ,yPJ, radius_pj, radius_pj);
+  //Pintar al PNJ
+  //PNJ = (1 - alpha) * PNJ + alpha * PJ
+  fill(255, 255, 45);
+  if(sqrt((xPJ - xPNJ1)*(xPJ - xPNJ1) + (yPJ - yPNJ1) * (yPJ - yPNJ1)) > 70) {
+    xPNJ1 = (1 - alpha) * xPNJ1 + alpha * xPJ;
+    yPNJ1 = (1 - alpha) * yPNJ1 + alpha * yPJ;
+  }
+  ellipse(xPNJ1, yPNJ1, radius_PNJ1, radius_PNJ1);
+  fill(255, 0, 45);
+  if(sqrt((xPNJ1 - xPNJ2)*(xPNJ1 - xPNJ2) + (yPNJ1 - yPNJ2) * (yPNJ1 - yPNJ2)) > 50) {
+  xPNJ2 = (1 - alpha) * xPNJ2 + alpha * xPNJ1;
+  yPNJ2 = (1 - alpha) * yPNJ2 + alpha * yPNJ1;
+  }
+  ellipse(xPNJ2, yPNJ2, radius_PNJ2, radius_PNJ2);
+}
+
+void draw(){ //Se ejecuta infinitas veces
+  //Pintar el PJ
+  background(0);
+  //if(enemiesGenerated == false){    El if es perque els enemics es per inicialitzar els enemics
+    GenerateEnemies();
+  //}
+  CharactersMovement();
+  CheckEnemiesCollisions();
 }
