@@ -56,7 +56,7 @@ void GenerateEnemies(){
   for(int i = 0; i < amount_npcs; i++){
    ellipse(npc_x[i],npc_y[i], radius_npcs, radius_npcs); 
   }
-  //enemiesGenerated = true;    El booleano es per a que s'inicialitzin un cop. Per fer que els enemics es moguin el enemiesGenerated haura de ser true.
+  enemiesGenerated = true;  //El booleano es per a que s'inicialitzin un cop. Per fer que els enemics es moguin el enemiesGenerated haura de ser true.
 }
 
 boolean CheckEnemiesCollisions(){
@@ -119,7 +119,7 @@ void CharactersMovement(){
 void draw(){ //Se ejecuta infinitas veces
   //Pintar el PJ
   background(0);
-  //if(enemiesGenerated == false){    El if es perque els enemics es per inicialitzar els enemics
+  //if(enemiesGenerated == false){    //El if es perque els enemics es per inicialitzar els enemics
     GenerateEnemies();
   //}
   CharactersMovement();
