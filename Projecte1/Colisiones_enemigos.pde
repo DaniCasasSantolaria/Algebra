@@ -1,4 +1,3 @@
-
 void CheckEnemiesCollisions(){ 
   float[] vector; //vector from de PJ to any NPC
   float magnitude; //vector size = distance between circles
@@ -26,12 +25,6 @@ void CheckEnemiesCollisions(){
       //When are we having collisions?
       if(magnitude < radius_npcs + radius_pj){
         println("I just collided with ", i);
-        xPJ = prevxPJ; 
-        yPJ = prevyPJ;
-      }
-      else{
-        prevxPJ = xPJ - 1;
-        prevyPJ = yPJ - 1;
       }
     }
   }

@@ -6,12 +6,18 @@
 //P sera la posicion del PNJ(Inicial)
 //El PJ, osea Q, esta en la posicion del raton
 float alpha = 0.02, beta = 0.01;
-float xPJ = width, yPJ = height, xPNJ1 = width / 2, yPNJ1 = height / 2, xPNJ2 = width / 3, yPNJ2 = height / 3, prevxPJ, prevyPJ;
+float xPJ = width, yPJ = height, xPNJ1 = width / 2, yPNJ1 = height / 2, xPNJ2 = width / 3, yPNJ2 = height / 3;
 float[] npc_x, npc_y, npc_quadrant;
 int amount_npcs = 10; // 10 npcs in the scene
 int radius_npcs = 20, radius_pj = 25, radius_PNJ1 = 20, radius_PNJ2 = 15;
 int pj_quadrant;
 boolean enemiesGenerated = false;
+//Mapa
+int circles_radius = 60, squares_height = 50, squares_width = 90;
+int circles = (int)random(6, 10); //Crear entre 6 y 10 circulos como objetos en el mapa
+int squares = 12 - circles;
+float[] x_circles, y_circles, x_squares, y_squares; //Coordenadas circulos y cuadrados
+
 
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
@@ -38,6 +44,19 @@ void setup(){ //Se ejecuta una vez al principio
      if(npc_y[counter] < height/2.0) npc_quadrant[counter] = 2;
      else npc_quadrant[counter] = 3;
    }
+  }
+  //Objetos mapa
+  x_circles = new float [circles];
+  y_circles = new float [circles];
+  x_squares = new float [squares];
+  y_squares = new float [squares];
+  for(int i = 0; i < circles; i++){
+    x_circles[i] = random(circles_radius, width - circles_radius);
+    y_circles[i] = random(circles_radius, height - circles_radius);
+  }
+  for(int i = 0; i < squares; i++){
+    x_squares[i] = random(squares_height, width - squares_height);
+    y_squares[i] = random(squares_height, width - squares_height);
   }
 }
 
@@ -76,4 +95,5 @@ background(0);
 
   //image(loadImage("Slime.png"), 50.0, 50.0); Para añadir una imagen primero añadir en sketch (arriba izquierda) y seguir este formato
   CheckEnemiesCollisions();
+  CrearMapa();
 }
