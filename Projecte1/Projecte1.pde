@@ -5,30 +5,20 @@
 //Q sera la posicion del PJ(Final)
 //P sera la posicion del PNJ(Inicial)
 //El PJ, osea Q, esta en la posicion del raton
-float alpha = 0.02;
-float xPJ = width;
-float yPJ = height;
-float xPNJ1 = width / 2;
-float yPNJ1 = height / 2;
-float xPNJ2 = width / 3;
-float yPNJ2 = height / 3;
-int[] npc_x;
-int[] npc_y;
-int[] npc_quadrant;
+float alpha = 0.02, beta = 0.01;
+float xPJ = width, yPJ = height, xPNJ1 = width / 2, yPNJ1 = height / 2, xPNJ2 = width / 3, yPNJ2 = height / 3, prevxPJ, prevyPJ;
+float[] npc_x, npc_y, npc_quadrant;
 int amount_npcs = 10; // 10 npcs in the scene
-int radius_npcs = 20;
-int radius_pj = 25;
-int radius_PNJ1 = 20;
-int radius_PNJ2 = 15;
+int radius_npcs = 20, radius_pj = 25, radius_PNJ1 = 20, radius_PNJ2 = 15;
 int pj_quadrant;
 boolean enemiesGenerated = false;
 
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
   size(1000, 1000); 
-  npc_x = new int [amount_npcs];
-  npc_y = new int [amount_npcs];
-  npc_quadrant = new int [amount_npcs];
+  npc_x = new float [amount_npcs];
+  npc_y = new float [amount_npcs];
+  npc_quadrant = new float [amount_npcs];
   //NPCS are randomly located
   for(int counter = 0; counter < amount_npcs; counter++){
    npc_x[counter] = (int)random(width);
@@ -49,48 +39,6 @@ void setup(){ //Se ejecuta una vez al principio
      else npc_quadrant[counter] = 3;
    }
   }
-}
-
-void GenerateEnemies(){
-  fill(0,255,0);
-  for(int i = 0; i < amount_npcs; i++){
-   ellipse(npc_x[i],npc_y[i], radius_npcs, radius_npcs); 
-  }
-  enemiesGenerated = true;  //El booleano es per a que s'inicialitzin un cop. Per fer que els enemics es moguin el enemiesGenerated haura de ser true.
-}
-
-boolean CheckEnemiesCollisions(){
-  float[] vector; //vector from de PJ to any NPC
-  float magnitude; //vector size = distance between circles
-  //boolean collided = false; // No collision by defect
-  vector = new float[2];
-  //Updating the PJ quadrant
-  for(int counter = 0; counter < amount_npcs; counter++){ //Si es mouen s'ha de posar al draw perque es repeteixi tota l'estona
-   if(xPJ < width/2.0){
-     if(yPJ < height/2.0) pj_quadrant = 1;
-     else pj_quadrant = 4;
-   }
-   else{
-     if(yPJ < height/2.0) pj_quadrant = 2;
-     else pj_quadrant = 3;
-   }
-  }
-  //We are optimimizing thanks to the QuadTree
-  for(int i = 0; i < amount_npcs; i++){
-   //we check the quadrants before the calculations
-    if(pj_quadrant == npc_quadrant[i]){ //Si estan en el mismo quadrante hace los calculos
-      //The calculations
-      vector[0] = npc_x[i] - xPJ;//Vx = NPCx - PJx
-      vector[1] = npc_y[i] - yPJ;//Vy = NPCy - PJy
-      magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
-      //When are we having collisions?
-      if(magnitude < radius_npcs + radius_pj){
-        println("I just collided with ", i);
-        return true;
-      }
-    }
-  }
-  return false;
 }
 
 void CharactersMovement(){
@@ -117,11 +65,15 @@ void CharactersMovement(){
 }
 
 void draw(){ //Se ejecuta infinitas veces
-  //Pintar el PJ
-  background(0);
-  //if(enemiesGenerated == false){    //El if es perque els enemics es per inicialitzar els enemics
-    GenerateEnemies();
-  //}
+background(0);
   CharactersMovement();
+  if(enemiesGenerated == false){    //El if es para inicialitzar a los enemigos una vez y después se muevan
+    GenerateEnemies_type1();
+  }
+  else{
+    MovementEnemies();
+  }
+
+  //image(loadImage("Slime.png"), 50.0, 50.0); Para añadir una imagen primero añadir en sketch (arriba izquierda) y seguir este formato
   CheckEnemiesCollisions();
 }
