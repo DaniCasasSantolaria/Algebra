@@ -13,6 +13,16 @@ void CheckPNJCollisions(float magnitude){
       xPNJ1 = (1 - alpha) * xPNJ1 + alpha * xPJ;
       yPNJ1 = (1 - alpha) * yPNJ1 + alpha * yPJ;
     }
+    float distancia = dist(xPJ, yPJ, xPNJ1, yPNJ1);
+    float radioSuma = (radius_pj) + (radius_PNJ1 / 7);
+    if (distancia < radioSuma) {
+      // Hay colisión
+      // Mover la bola fuera del círculo para evitar la sobreposición
+      float angulo = atan2(yPJ - yPNJ1, xPJ - xPNJ1);
+      float nuevaDistancia = radioSuma + 1; // Evitar sobreposición
+      xPJ = xPNJ1 + cos(angulo) * nuevaDistancia;
+      yPJ = yPNJ1 + sin(angulo) * nuevaDistancia;
+    }
   }
   if(touchPNJ2 == false && touchPNJ1 == true){
     vector[0] = xPJ - xPNJ2;
@@ -27,6 +37,16 @@ void CheckPNJCollisions(float magnitude){
     if(sqrt((xPNJ1 - xPNJ2)*(xPNJ1 - xPNJ2) + (yPNJ1 - yPNJ2) * (yPNJ1 - yPNJ2)) > 50) {
       xPNJ2 = (1 - alpha) * xPNJ2 + alpha * xPNJ1;
       yPNJ2 = (1 - alpha) * yPNJ2 + alpha * yPNJ1;
+    }
+    float distancia = dist(xPJ, yPJ, xPNJ2, yPNJ2);
+    float radioSuma = (radius_pj) + (radius_PNJ2/ 15);
+    if (distancia < radioSuma) {
+      // Hay colisión
+      // Mover la bola fuera del círculo para evitar la sobreposición
+      float angulo = atan2(yPJ - yPNJ2, xPJ - xPNJ2);
+      float nuevaDistancia = radioSuma + 1; // Evitar sobreposición
+      xPJ = xPNJ2 + cos(angulo) * nuevaDistancia;
+      yPJ = yPNJ2 + sin(angulo) * nuevaDistancia;
     }
   }
   fill(255, 255, 45);

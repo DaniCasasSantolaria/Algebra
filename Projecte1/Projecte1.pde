@@ -15,12 +15,14 @@ int radius_npcs = 20, radius_pj = 25, radius_PNJ1 = 20, radius_PNJ2 = 15;
 int pj_quadrant;
 boolean enemiesGenerated = false;
 //Mapa
-int circles_radius = 30, squares_height = 30, squares_width = 70;
+int circles_radius = 30, squares_height = 40, squares_width = 40;
 int circles = (int)random(6, 10); //Crear entre 6 y 10 circulos como objetos en el mapa
 int squares = 12 - circles;
 float[] x_circles, y_circles, x_squares, y_squares, circle_quadrant, square_quadrant; //Coordenadas circulos y cuadrados
 boolean touchPNJ1 = false, touchPNJ2 = false; //Para comprobar si el PJ ha tocado al PNJ1 y al PNJ2
 boolean menuOptions = false;
+boolean doorToFinalBoss = false;
+boolean allPowerUps = false;
 
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
@@ -44,6 +46,41 @@ void setup(){ //Se ejecuta una vez al principio
     x_squares[i] = random(squares_height, width - squares_height);
     y_squares[i] = random(squares_height, width - squares_height);
   }
+  //Boss final
+  x_boss = 800;
+  y_boss = 500;
+  x_tower = new float[amount_towers];
+  y_tower = new float[amount_towers];
+  // asignación de posiciones de las torres 
+  x_tower[0] = radius_tower;
+  y_tower[0] = radius_tower;
+  x_tower[1] = width - radius_tower; 
+  y_tower[1] = radius_tower; 
+  x_tower[2] = radius_tower;
+  y_tower[2] = height - radius_tower;
+  x_tower[3] = width - radius_tower;
+  y_tower[3] = height - radius_tower;
+
+  x_obstacles = new float[amount_obstacles];
+  y_obstacles = new float[amount_obstacles];
+  //asignación de posiciones de los obstáculos 
+  x_obstacles[0] = radius_tower * 2; 
+  y_obstacles[0] = height/3;
+  x_obstacles[1] = radius_tower * 2; 
+  y_obstacles[1] = (2 * height)/3;
+  x_obstacles[2] = width/3;
+  y_obstacles[2] = height -radius_tower * 2;
+  x_obstacles[3] = (2 * width)/3;
+  y_obstacles[3] = height - radius_tower * 2;
+  x_obstacles[4] = width - radius_tower * 2;
+  y_obstacles[4] = (2 * height)/3;
+  x_obstacles[5] = width - radius_tower * 2;
+  y_obstacles[5] = height/3;
+  x_obstacles[6] = (2 * width)/3;
+  y_obstacles[6] = radius_tower * 2;
+  x_obstacles[7] = width/3;
+  y_obstacles[7] = radius_tower * 2;
+  //Para poner el valor del contador en el tiempo que queramos
   tiempoRestante = tiempoTotal;
 }
 
@@ -74,22 +111,10 @@ void CharactersMovementMouse(){
     yPJ += moveY;
     fill(0,255,255);
     ellipse(xPJ, yPJ, radius_pj, radius_pj);
-    float[] vector; //vector from de PJ to any NPC
-    float magnitude = 0; //vector size = distance between circles
-    vector = new float [2];
-    vector[0] = xPNJ1 - xPJ;//Vx = NPCx - PJx
-    vector[1] = yPNJ1 - yPJ;//Vy = NPCy - PJy
-    magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
-    CheckPNJCollisions(magnitude);
-    CheckEnemiesCollisions();
-    CheckCirclesCollisions();
   }
 }
 
 void CharactersMovementKeyboard(){
-  float[] vector; //vector from de PJ to any NPC
-  float magnitude = 0; //vector size = distance between circles
-  vector = new float [2];
   fill(255, 0, 0);
   if(start == true){
     xPJ = width / 2;
@@ -112,15 +137,6 @@ void CharactersMovementKeyboard(){
       }
     }
   }
-  //Pintar al PNJ
-  ellipse(xPJ, yPJ, radius_pj, radius_pj);
-  //PNJ = (1 - alpha) * PNJ + alpha * PJ
-  vector[0] = xPNJ1 - xPJ;//Vx = NPCx - PJx
-  vector[1] = yPNJ1 - yPJ;//Vy = NPCy - PJy
-  magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
-  CheckPNJCollisions(magnitude);
-  CheckEnemiesCollisions();
-  CheckCirclesCollisions();
 }
 
 void draw(){ //Se ejecuta infinitas veces
@@ -147,24 +163,43 @@ void draw(){ //Se ejecuta infinitas veces
     }
     else{
       background(33);
+      CreateMap();
       if(mouseControl) CharactersMovementMouse();
       else if(keyboardControl) CharactersMovementKeyboard();
       CheckCharacterQuadrant();
+      float[] vector; //vector from de PJ to any NPC
+      float magnitude = 0; //vector size = distance between circles
+      vector = new float [2];
+      vector[0] = xPNJ1 - xPJ;//Vx = NPCx - PJx
+      vector[1] = yPNJ1 - yPJ;//Vy = NPCy - PJy
+      magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
+      if(followNpc_collided > 0) CheckEnemiesCollisions();
+      else amount_npcs = 0; // Hacemos desaparecer a los NPCs
+      CheckPNJCollisions(magnitude);
+      CheckCirclesCollisions();
+      CheckSquaresCollisions();
       if(touchPNJ1 == true && touchPNJ2 == true){
         if(enemiesGenerated == false){    //El if es para inicialitzar a los enemigos una vez y después se muevan
           GenerateEnemies_type1();
         }
         else{
           MovementEnemies();
+          CheckCollisionsBetweenEnemies();
         }
       }
-      CrearMapa();
+      if(amount_npcs < 0 && allPowerUps){
+        DoorToFinalBoss();
+      }
       LifeBar();
+      Punctuation();
       ShowTimer();
       UpdateTimer();
     }
       break;
    case 2:  //Sala del jefe
+     CreateBossMap();
+     if(mouseControl) CharactersMovementMouse();
+     else if(keyboardControl) CharactersMovementKeyboard();
      break;
    case 3:  //GAME OVER
      if(PJ_lifes == 0) GameOver();

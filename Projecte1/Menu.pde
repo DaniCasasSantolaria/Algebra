@@ -37,6 +37,7 @@ void MenuPlay(){
     textSize(30);
     text("Do you want " + amount_npcs + " enemies? Press enter to confirm", 230, 300);
     if(key == ENTER && amount_npcs > 0){
+      followNpc_collided = amount_npcs / 2;
       scene = 1;
     }
     fill(20);

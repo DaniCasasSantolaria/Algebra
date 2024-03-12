@@ -35,5 +35,25 @@ void CheckCirclesCollisions(){
 }
 
 void CheckSquaresCollisions(){
-  
+  PVector min_pj = new PVector(xPJ-squares_height/2.0,yPJ+squares_height/2.0);
+  PVector max_pj = new PVector(xPJ+squares_height/2.0,yPJ-squares_height/2.0);
+  // We continue with the walls (we loop through them)
+  PVector min_wall = new PVector(0,0);
+  PVector max_wall = new PVector(0,0);
+  boolean collided;
+  for(int counter=0;counter<squares;counter++){
+    min_wall.x = x_squares[counter] - squares_height/2.0;
+    min_wall.y = y_squares[counter] + squares_height/2.0;
+    max_wall.x = x_squares[counter] + squares_height/2.0;
+    max_wall.y = y_squares[counter] - squares_height/2.0;
+    // We perform the Min Max Test
+    if ((max_pj.x<min_wall.x)||(max_pj.y>min_wall.y)||
+    (max_wall.x<min_pj.x)||(max_wall.y>min_pj.y)) collided = false;
+    else collided = true;
+    fill(255,255,255);
+    if (collided){
+      fill(255,0,0);
+      rect(x_squares[counter], y_squares[counter], squares_height, squares_width);
+    }
+  }
 }
