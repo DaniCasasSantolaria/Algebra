@@ -34,11 +34,8 @@ void MenuPlay(){
     fill(255);
     textSize(50);
     text("How many enemies do you want 1 - 12?", 100, 100);
-    textSize(20);
-    text("Do you want ", 300, 300);
-    text(amount_npcs, 410, 300);
-    //amount_npcs = (int)key;
-    text(" enemies? Press enter to confirm", 430, 300);
+    textSize(30);
+    text("Do you want " + amount_npcs + " enemies? Press enter to confirm", 230, 300);
     if(key == ENTER && amount_npcs > 0){
       scene = 1;
     }

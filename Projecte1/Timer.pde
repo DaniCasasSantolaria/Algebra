@@ -1,4 +1,4 @@
-int tiempoTotal = 6000; //* 60 * 1000; // 6 minutos en milisegundos
+int tiempoTotal = 6 * 60 * 1000; // 6 minutos en milisegundos
 int tiempoRestante;
 int tiempoAnterior;
 
@@ -13,7 +13,6 @@ void ShowTimer() {
 }
 
 void UpdateTimer() {
-  println(tiempoRestante);
   int tiempoTranscurrido = millis() - tiempoAnterior;
   
   if (tiempoRestante > 0) {
@@ -25,9 +24,14 @@ void UpdateTimer() {
       scene = 4;
     }
     else{
-      
+      scene = 3;
     }
   }
+  tiempoAnterior = millis();
+}
+
+void RestartTimer() {
+  tiempoRestante = tiempoTotal;
   tiempoAnterior = millis();
 }
 
@@ -44,6 +48,7 @@ void TimerOver(){
 
 void keyPressed(){
   if(scene == 4 && key == ENTER){
+    RestartTimer();
     scene = 1;
   }
 }

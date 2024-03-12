@@ -1,3 +1,5 @@
+float positionX_firstCircle = random(circles_radius, width - (circles_radius * 2));
+float positionY_firstCircle = random(circles_radius, height - (circles_radius * 2));
 void CrearMapa(){
   fill(255,255,255);
   float[] positionCircles;
@@ -16,6 +18,7 @@ void CrearMapa(){
         j = 0;
       }
     }
+    if(i == 0) ellipse(positionX_firstCircle, positionY_firstCircle, circles_radius, circles_radius);
     if(circlesNotColliding == true && countCircles > 0){
       ellipse(positionCircles[0], positionCircles[1], circles_radius, circles_radius);
       circlesNotColliding = false;
