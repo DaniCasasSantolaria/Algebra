@@ -9,12 +9,12 @@ int scene;  //0 es el menú, 1 la primera sala, 2 la sala del jefe y 3 menú GAM
 float alpha = 0.02;
 float xPJ = width / 2, yPJ = height / 2, xPNJ1 = width - 50, yPNJ1 = 900, xPNJ2 = 900, yPNJ2 = 175;
 float[] npc_x, npc_y, npc_quadrant;
-int amount_npcs; // npcs en la escena
+int amount_npcs = 2; // npcs en la escena
 int radius_npcs = 20, radius_pj = 25, radius_PNJ1 = 20, radius_PNJ2 = 15;
 int pj_quadrant;
 boolean enemiesGenerated = false;
 //Mapa
-int circles_radius = 60, squares_height = 50, squares_width = 90;
+int circles_radius = 30, squares_height = 30, squares_width = 70;
 int circles = (int)random(6, 10); //Crear entre 6 y 10 circulos como objetos en el mapa
 int squares = 12 - circles;
 float[] x_circles, y_circles, x_squares, y_squares, circle_quadrant, square_quadrant; //Coordenadas circulos y cuadrados
@@ -43,6 +43,7 @@ void setup(){ //Se ejecuta una vez al principio
     x_squares[i] = random(squares_height, width - squares_height);
     y_squares[i] = random(squares_height, width - squares_height);
   }
+  tiempoRestante = tiempoTotal;
 }
 
 void CheckCharacterQuadrant(){
@@ -64,6 +65,36 @@ void CharactersMovementMouse(){
   if(sqrt((1 - mouseX)*(1 - mouseX) + (1 - mouseY) * (1 - mouseY)) > 10) {
     xPJ = (1 - alpha) * xPJ + alpha * mouseX;
     yPJ = (1 - alpha) * yPJ + alpha * mouseY;
+  }
+  //Pintar al PNJ
+  ellipse(xPJ, yPJ, radius_pj, radius_pj);
+  //PNJ = (1 - alpha) * PNJ + alpha * PJ
+  vector[0] = xPNJ1 - xPJ;//Vx = NPCx - PJx
+  vector[1] = yPNJ1 - yPJ;//Vy = NPCy - PJy
+  magnitude = sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // = distance
+  CheckPNJCollisions(magnitude);
+  CheckEnemiesCollisions();
+  CheckCirclesCollisions();
+}
+
+void CharactersMovementKeyboard(){
+  float[] vector; //vector from de PJ to any NPC
+  float magnitude = 0; //vector size = distance between circles
+  vector = new float [2];
+  fill(255, 0, 0);
+  if(keyboardControl){
+    if(keyPressed && key == 'w' && yPJ > 12){
+      yPJ -= 2;
+    }
+    if(keyPressed && key == 's' && yPJ < height - 12){
+      yPJ += 2;
+    }
+    if(keyPressed && key == 'd' && xPJ < width - 12){
+      xPJ += 2;
+    }
+    if(keyPressed && key == 'a' && xPJ > 12){
+      xPJ -= 2;
+    }
   }
   //Pintar al PNJ
   ellipse(xPJ, yPJ, radius_pj, radius_pj);
@@ -99,19 +130,21 @@ void draw(){ //Se ejecuta infinitas veces
     }
     else{
       background(33);
-    LifeBar();
-    CharactersMovementMouse();
-    CheckCharacterQuadrant();
-    if(touchPNJ1 == true && touchPNJ2 == true){
-      if(enemiesGenerated == false){    //El if es para inicialitzar a los enemigos una vez y después se muevan
-        GenerateEnemies_type1();
+      if(mouseControl) CharactersMovementMouse();
+      else if(keyboardControl) CharactersMovementKeyboard();
+      CheckCharacterQuadrant();
+      if(touchPNJ1 == true && touchPNJ2 == true){
+        if(enemiesGenerated == false){    //El if es para inicialitzar a los enemigos una vez y después se muevan
+          GenerateEnemies_type1();
+        }
+        else{
+          MovementEnemies();
+        }
       }
-      else{
-        MovementEnemies();
-      }
-      //image(loadImage("Slime.png"), 50.0, 50.0); Para añadir una imagen primero añadir en sketch (arriba izquierda) y seguir este formato
-    }
-    CrearMapa();
+      CrearMapa();
+      LifeBar();
+      ShowTimer();
+      UpdateTimer();
     }
       break;
    case 2:  //Sala del jefe
@@ -120,5 +153,7 @@ void draw(){ //Se ejecuta infinitas veces
      if(PJ_lifes == 0) GameOver();
      else GameCompleted();
      break;
+   case 4:
+     if(tiempoRestante <= 0) TimerOver();
   }
 }

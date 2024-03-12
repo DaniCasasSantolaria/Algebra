@@ -1,7 +1,7 @@
 void GenerateEnemies_type1(){
   fill(0,255,255);
   for(int counter = 0; counter < amount_npcs; counter++){
-   npc_x[counter] = (int)random(-50, -200);
+   npc_x[counter] = (int)random(-100, -200);
    npc_y[counter] = (int)random(height);  //Ponemos int porque la pantalla no tiene decimales, tiene pixeles
   }
   for(int i = 0; i < amount_npcs / 2; i++){

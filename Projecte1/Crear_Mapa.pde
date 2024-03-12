@@ -1,20 +1,30 @@
 void CrearMapa(){
   fill(255,255,255);
-  for(int i = 1; i < circles; i++){
-    for(int j = 0; j < circles; j++){
-      if(x_circles[i] != x_circles[j] && y_circles[i] != y_circles[j]){
-        ellipse(x_circles[i], y_circles[i], circles_radius, circles_radius);
+  float[] positionCircles;
+  positionCircles = new float [2]; // Para guardar la coordenada x y y del circulo que no colisiona con los otros
+  boolean circlesNotColliding = false;
+  int countCircles = circles;
+  //Crear circulos que no colisiones los unos con los otros
+  for(int i = 0; i < circles; i++){
+    for(int j = i; j > 0; j--){
+      float distancia = dist(x_circles[i], y_circles[i], x_circles[j], y_circles[j]);
+      float radioSuma = (circles_radius) + (circles_radius);
+      if(distancia > radioSuma){
+        circlesNotColliding = true;
+        positionCircles[0] = x_circles[i];
+        positionCircles[1] = y_circles[i];
+        j = 0;
       }
     }
+    if(circlesNotColliding == true && countCircles > 0){
+      ellipse(positionCircles[0], positionCircles[1], circles_radius, circles_radius);
+      circlesNotColliding = false;
+      countCircles--;
+    }
   }
+  //Crear cuadrados que no colisiones los unos con los otros
   for(int i = 0; i < squares; i++){
-    for(int j = 0; j < squares; j++){
-       for(int z = 0; z < circles; z++){
-          if(x_squares[i] != x_squares[j] && y_squares[i] != y_squares[j] && x_squares[i] != x_circles[z] && y_squares[i] != y_circles[z]){
-            rectMode(CENTER);
-            rect(x_squares[i], y_squares[i], squares_height, squares_width);
-          }
-        }
-     }
+    rectMode(CENTER);
+    rect(x_squares[i], y_squares[i], squares_height, squares_width);
   }
 }
