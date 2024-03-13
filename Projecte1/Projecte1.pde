@@ -1,3 +1,4 @@
+import ddf.minim.*;
 //Un PNJ persigue a un PJ
 //Usamos la equacion parametrica de la recta
 //r(alpha) = P + alpha * vector
@@ -5,6 +6,9 @@
 //Q sera la posicion del PJ(Final)
 //P sera la posicion del PNJ(Inicial)
 //El PJ, osea Q, esta en la posicion del raton
+
+Minim minim;
+AudioPlayer player;
 int scene;  //0 es el menú, 1 la primera sala, 2 la sala del jefe, 3 menú GAME OVER y 4 cuando se acaba el tiempo
 boolean start = true;
 float alpha = 0.02;
@@ -27,6 +31,8 @@ boolean allPowerUps = false;
 void setup(){ //Se ejecuta una vez al principio
   //La ventanta
   size(1000, 1000);
+  minim = new Minim(this);
+  player = minim.loadFile("lady-of-the-80x27s-128379.mp3");
   scene = 0;
   PJ_lifes = 3;
   PNJ2_lifes = 3;
@@ -140,6 +146,7 @@ void CharactersMovementKeyboard(){
 }
 
 void draw(){ //Se ejecuta infinitas veces
+  if(scene > 0) player.play();
   switch(scene){
   case 0:  //Menú
     RestartTimer();
@@ -182,6 +189,10 @@ void draw(){ //Se ejecuta infinitas veces
           LifeBarPNJ2();
           //CheckCollisionsBetweenEnemies();
         }
+        if(initializePolygons == false) PowerUpsInitialize();
+        else PrintPolygons();
+        if(!enemiesInitialized) InitializeRandomMovementEnemies();
+        else RandomMovementEnemies();
       }
       if(followNpc_collided <= 0 && allPowerUps){
         DoorToFinalBoss();
@@ -190,16 +201,27 @@ void draw(){ //Se ejecuta infinitas veces
       Punctuation();
       ShowTimer();
       UpdateTimer();
-      printPolygons();
       break;
    case 2:  //Sala del jefe
      CreateBossMap();
      if(mouseControl) CharactersMovementMouse();
      else if(keyboardControl) CharactersMovementKeyboard();
+     BossMovement();
+     CheckBossMapCollisions();
+     CheckPlayerTowersCollisions();
+     CheckPlayerObstaclesCollisions();
+     LifeBar();
+     Punctuation();
+     ShowTimer();
+     UpdateTimer();
+     LifeBarBoss();
      break;
    case 3:  //GAME OVER
-     if(PJ_lifes == 0) GameOver();
-     else GameCompleted();
+     if(PJ_lifes == 0) {
+       GameOver();
+       break;
+     }
+     GameCompleted();
      break;
    case 4:
      if(tiempoRestante <= 0) TimerOver();

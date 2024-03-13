@@ -1,4 +1,4 @@
-int tiempoTotal = 6 * 60 * 1000; // 6 minutos en milisegundos
+int tiempoTotal = 3 * 60 * 1000; // 6 minutos en milisegundos
 int tiempoRestante;
 int tiempoAnterior;
 
