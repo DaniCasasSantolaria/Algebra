@@ -37,7 +37,7 @@ void MenuPlay(){
     textSize(30);
     text("Do you want " + amount_npcs + " enemies? Press enter to confirm", 230, 300);
     if(key == ENTER && amount_npcs > 0){
-      followNpc_collided = amount_npcs / 2;
+      followNpc_collided = amount_npcs;
       scene = 1;
     }
     fill(20);
@@ -71,22 +71,6 @@ void MenuControls(){
     text("BACK", 105, 910);
 }
 
-void MenuOptions(){
-   background(50);
-   textSize(100);
-   rectMode(CENTER);
-   fill(0);
-   rect(500, 300, 500, 100);
-   fill(255);
-   textSize(100);
-   text("CONTINUE", 280, 335);
-   fill(0);
-   rect(500, 500, 400, 100);
-   fill(255);
-   textSize(100);
-   text("EXIT", 410, 535);
-}
-
 void mouseClicked(){
   if (scene == 0 && mouseX > 249 && mouseX < 751 && mouseY > 249 && mouseY < 351 && clickedPlay == false && clickedControls == false) clickedPlay = true;
   else if(scene == 0 && mouseX > 249 && mouseX < 751 && mouseY > 449 && mouseY < 551 && clickedPlay == false && clickedControls == false) clickedControls = true;
@@ -102,10 +86,5 @@ void mouseClicked(){
   if(scene == 0 && clickedControls == true && mouseX > 349 && mouseX < 651 && mouseY > 374 && mouseY < 426){
     keyboardControl = true;
     mouseControl = false;
-  }
-  if(scene == 1 && menuOptions == true && mouseX > 299 && mouseX < 701 && mouseY > 449 && mouseY < 551) exit();
-  else if((scene == 1 && menuOptions == true && mouseX > 249 && mouseX < 751 && mouseY > 249 && mouseY < 351) || key == TAB){
-    scene = 1;
-    menuOptions = false;
   }
 }

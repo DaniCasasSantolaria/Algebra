@@ -157,11 +157,6 @@ void draw(){ //Se ejecuta infinitas veces
     }
     break;
   case 1:  //Sala 1
-    if(key == TAB) menuOptions = true;
-    if(menuOptions == true){
-      MenuOptions();
-    }
-    else{
       background(33);
       CreateMap();
       if(mouseControl) CharactersMovementMouse();
@@ -184,7 +179,8 @@ void draw(){ //Se ejecuta infinitas veces
         }
         else{
           MovementEnemies();
-          CheckCollisionsBetweenEnemies();
+          LifeBarPNJ2();
+          //CheckCollisionsBetweenEnemies();
         }
       }
       if(amount_npcs < 0 && allPowerUps){
@@ -194,7 +190,6 @@ void draw(){ //Se ejecuta infinitas veces
       Punctuation();
       ShowTimer();
       UpdateTimer();
-    }
       break;
    case 2:  //Sala del jefe
      CreateBossMap();

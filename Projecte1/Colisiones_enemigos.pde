@@ -1,4 +1,6 @@
 float followNpc_collided;
+boolean isCollidingPNJ2 = false;
+boolean hasCollidedPNJ2 = false;
 void QuadTreeEnemies(){  // dividir el mapa en cuadrantes 
   //We label NPCs for the QuadTree 
   //Top left = 1
@@ -35,6 +37,21 @@ void CheckEnemiesCollisions(){
         followNpc_collided -= 1;
         punctuation += 10;
       }
+    }
+    //Check PNJ2 collisions with enemies
+    float distancePNJ2 = dist(xPNJ2, yPNJ2, npc_x[i], npc_y[i]);
+    float radiusSumPNJ2= (radius_PNJ2) + (radius_npcs / 6);
+    if (distancePNJ2 < radiusSumPNJ2) {
+      // There is collision
+      isCollidingPNJ2 = true;
+    }
+    if(isCollidingPNJ2 && !hasCollidedPNJ2){
+      hasCollidedPNJ2 = true;
+      PNJ2_lifes--;
+    }
+    else if((hasCollidedPNJ2 && !isCollidingPNJ2) || (!hasCollidedPNJ2 && !isCollidingPNJ2)){
+      isCollidingPNJ2 = false;
+      hasCollidedPNJ2 = false;
     }
   }
 }

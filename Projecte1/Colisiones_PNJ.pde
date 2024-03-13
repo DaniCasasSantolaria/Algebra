@@ -38,6 +38,16 @@ void CheckPNJCollisions(float magnitude){
       xPNJ2 = (1 - alpha) * xPNJ2 + alpha * xPNJ1;
       yPNJ2 = (1 - alpha) * yPNJ2 + alpha * yPNJ1;
     }
+    float distance1 = dist(xPNJ1, yPNJ1, xPNJ2, yPNJ2);
+    float radiusSum1 = (radius_PNJ1) + (radius_PNJ2/ 30);
+    if (distance1 < radiusSum1) {
+      // Hay colisión
+      // Mover la bola fuera del círculo para evitar la sobreposición
+      float angulo = atan2(yPNJ1 - yPNJ2, xPNJ1 - xPNJ2);
+      float newDistance = radiusSum1 + 1; // Evitar sobreposición
+      xPNJ1 = xPNJ2 + cos(angulo) * newDistance;
+      yPNJ1 = yPNJ2 + sin(angulo) * newDistance;
+    }
     float distancia = dist(xPJ, yPJ, xPNJ2, yPNJ2);
     float radioSuma = (radius_pj) + (radius_PNJ2/ 15);
     if (distancia < radioSuma) {
