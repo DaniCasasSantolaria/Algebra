@@ -190,6 +190,7 @@ void draw(){ //Se ejecuta infinitas veces
       Punctuation();
       ShowTimer();
       UpdateTimer();
+      printPolygons();
       break;
    case 2:  //Sala del jefe
      CreateBossMap();
@@ -202,5 +203,5 @@ void draw(){ //Se ejecuta infinitas veces
      break;
    case 4:
      if(tiempoRestante <= 0) TimerOver();
-  }
+  }  
 }
