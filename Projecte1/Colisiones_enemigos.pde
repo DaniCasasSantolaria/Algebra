@@ -1,6 +1,6 @@
 float followNpc_collided;
-boolean isCollidingPNJ2 = false;
-boolean hasCollidedPNJ2 = false;
+boolean alreadyCollided = false; // Variable para controlar si ya ha habido una colisión
+
 void QuadTreeEnemies(){  // dividir el mapa en cuadrantes 
   //We label NPCs for the QuadTree 
   //Top left = 1
@@ -19,6 +19,7 @@ void QuadTreeEnemies(){  // dividir el mapa en cuadrantes
   }
 }
 
+boolean collisionDetected = false;
 void CheckEnemiesCollisions(){ 
   //Updating the PJ quadrant
   //Si es mouen s'ha de posar al draw perque es repeteixi tota l'estona
@@ -38,21 +39,23 @@ void CheckEnemiesCollisions(){
         punctuation += 10;
       }
     }
-    //Check PNJ2 collisions with enemies
-    float distancePNJ2 = dist(xPNJ2, yPNJ2, npc_x[i], npc_y[i]);
-    float radiusSumPNJ2= (radius_PNJ2) + (radius_npcs / 6);
-    if (distancePNJ2 < radiusSumPNJ2) {
-      // There is collision
-      isCollidingPNJ2 = true;
-    }
-    if(isCollidingPNJ2 && !hasCollidedPNJ2){
-      hasCollidedPNJ2 = true;
-      PNJ2_lifes--;
-    }
-    else if((hasCollidedPNJ2 && !isCollidingPNJ2) || (!hasCollidedPNJ2 && !isCollidingPNJ2)){
-      isCollidingPNJ2 = false;
-      hasCollidedPNJ2 = false;
-    }
+    //AQUEST CODI ES PARA LA RESTA DE VIDAS DEL PNJ2 PERO RESTA VIDES CONSTANTMENT
+  //  //Check PNJ2 collisions with enemies
+  //  float distance = dist(xPNJ2, yPNJ2, npc_x[i], npc_y[i]);
+  //  // Si el PNJ2 colisiona con el PNJ controlado con el mouse
+  //  if (distance < radius_PNJ2 + (radius_npcs / 2)) {
+  //    // Restar una vida al PNJ2 si no ha colisionado antes
+  //    if (!alreadyCollided) {
+  //      alreadyCollided = true;
+  //      PNJ2_lifes--;
+  //      println("B");
+  //    }
+  //  }
+  //  else {
+  //    // Reiniciar el estado de la colisión si ya no hay colisión
+  //    alreadyCollided = false;
+  //    println("A");
+  //  }
   }
 }
 

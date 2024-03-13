@@ -25,8 +25,8 @@ void MovementEnemies(){  // Después de crear los enemigos llamamos a esta funci
     fill(0,255,255);
     ellipse(npc_x[i],npc_y[i], radius_npcs, radius_npcs); 
   }
-  if(velocity <= 4 && stopping == false) velocity += 0.007;
-  else if(velocity > 4){
+  if(velocity <= 3 && stopping == false) velocity += 0.007;
+  else if(velocity > 3){
     stopping = true;
   }
   if(stopping == true && velocity > 1) velocity -= 0.01;

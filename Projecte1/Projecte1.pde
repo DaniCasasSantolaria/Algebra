@@ -29,7 +29,7 @@ void setup(){ //Se ejecuta una vez al principio
   size(1000, 1000);
   scene = 0;
   PJ_lifes = 3;
-  PNJ2_lifes = 4;
+  PNJ2_lifes = 3;
   circle_quadrant = new float [circles];
   square_quadrant = new float [squares];
   //NPCS are randomly located
@@ -183,7 +183,7 @@ void draw(){ //Se ejecuta infinitas veces
           //CheckCollisionsBetweenEnemies();
         }
       }
-      if(amount_npcs < 0 && allPowerUps){
+      if(followNpc_collided <= 0 && allPowerUps){
         DoorToFinalBoss();
       }
       LifeBar();
