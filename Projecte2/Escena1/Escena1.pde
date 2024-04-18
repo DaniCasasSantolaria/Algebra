@@ -1,38 +1,3 @@
-/*void setup(){
-    size(900,900, P3D);
-}
-
-void draw(){
-  translate(width/2,height/2);
-  drawScene();
-}*/
-
-//Una proyeccion isomètrica
-//120 grados de separación entre ejes
-//Para ello, acumulamos 2 transformaciones homogeneas
-//de rotacion alrededor de los ejes X e Y...
-//en Y son 45 grados
-//En X?
-
-//Variables
-//Perspectiva isonomètrica
-float anguloX=-35.26;
-float anguloY=45.0;
-//float anguloZ=110.0;
-// Funciones
-void pintaEjes(){
-  //GruesoEjes
-  strokeWeight(5);
-  //Eje X
-  stroke(255,0,0);
-  line(0,0,0,100,0,0);
-  //Eje Y
-  stroke(0,0,255);
-  line(0,0,0,0,100,0);
-  //Eje Z
-  stroke(0,255,0);
-  line(0,0,0,0,0,100);
-}
 
 void pintaEscena(){
  //Suelo Jardín
