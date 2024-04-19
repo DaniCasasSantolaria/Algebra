@@ -51,9 +51,31 @@ void pintaEscena(){
  
  //Ventanas
  pushMatrix();
- 
- popMatrix();
- 
+ translate(-190,0,550);
+ fill(#2BADE1);
+ stroke(#2BADE1);
+ box(50);
+ translate(20,0,0);
+ box(50);
+ //Bordes ventanas
+ fill(#646464);
+ stroke(#646464);
+ translate(25.2, 26, 24.5);
+ for(int j = 0; j < 2; j++){  //Filas de bordes grises
+   for(int i = 0; i < 36; i++){
+    box(2);
+    translate(-2, 0, 0);
+   }
+   translate(2 * 36, -52, 0);
+ }
+ for(int i = 0; i < 2; i++){ //Columnas de bordes grises
+   for(int j = 0; j < 36; j++){
+    box(2);
+    translate(0, 2, 0);
+   }
+   translate(0, 52, 0);
+ }
+  popMatrix();
  //Techo
  /*fill(#E56455);
  beginShape();
