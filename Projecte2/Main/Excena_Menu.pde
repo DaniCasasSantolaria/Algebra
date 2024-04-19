@@ -1,4 +1,3 @@
-
 void pintaEscena(){
  //Suelo Jardín
  stroke(0);
@@ -52,11 +51,11 @@ void pintaEscena(){
  //Ventanas
  pushMatrix();
  translate(-190,0,550);
- fill(#2BADE1);
- stroke(#2BADE1);
- box(50);
+ //fill(#74A8E8);
+ //stroke(#74A8E8);
+ //box(50);
  translate(20,0,0);
- box(50);
+ //box(50);
  //Bordes ventanas
  fill(#646464);
  stroke(#646464);
@@ -68,12 +67,13 @@ void pintaEscena(){
    }
    translate(2 * 36, -52, 0);
  }
+ translate(0,54,0);
  for(int i = 0; i < 2; i++){ //Columnas de bordes grises
-   for(int j = 0; j < 36; j++){
+   for(int j = 0; j < 25; j++){
     box(2);
     translate(0, 2, 0);
    }
-   translate(0, 52, 0);
+   translate(-2 * 35, -25 * 2, 0);
  }
   popMatrix();
  //Techo
@@ -93,18 +93,12 @@ void pintaEscena(){
  vertex(0,0,100);
  endShape();*/
 }
-//Setup
-void setup(){
-  // Creacion ventana
-  //ATENCION! queremos pintar  en 3D!!!
-  size(1920,1080,P3D);//Processing 3D (P3D)
- 
-}
-//Draw
-void draw(){
-  //Limpiar fondo
- background(#28AFE1);
- translate(width/2,height/2);
- //Pintar una escena
- pintaEscena();
+
+void textMenu(){
+  pushMatrix();
+  translate(-width/2,-height/2);
+  image(text_play, 1400, 0);
+  translate(292,512,650);
+  image(salon, 500, 0);
+  popMatrix();
 }
