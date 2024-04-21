@@ -23,36 +23,46 @@ void createMap(){
  drawCars();
 }
 
-class car{
- color paint;
- float x, y;
- int type;
- car(){
-   paint = color(random(255),random(255),random(255));
-   float position = random(1);
-   if(position > 0.5){
-     x = -100;
-     y = (height / 2) - (300 / 4);
-     type = 1;
-   }
-   else{
-     x = width + 100;
-     y = (height / 2) - (300 / 4);
-     type = 2;
-   }
- }
+class Car {
+  color paint;
+  float x, y, speed;
+  int type;
+  
+  Car() {
+    paint = color(random(255), random(255), random(255));
+    speed = random(1, 3.5);
+    float position = random(1);
+    if (position > 0.5) {
+      x = -100;
+      y = (height / 2) - (300 / 4);
+      type = 1;
+    } else {
+      x = width + 100;
+      y = (height / 2) + (300 / 4);
+      type = 2;
+    }
+  }
 }
+
 int NUM_CARS = 2;
-car[] cars = new car[NUM_CARS];
-float timer = millis() / 1000;
-void drawCars(){
-  //Falta dibujar el coche
-  //for(int i = 0; i < NUM_CARS; i++){
-  //  if(timer % 2 == 0){
-  //    if(cars[i].type == 1) cars[i].x += 10;
-  //    else cars[i].x -= 10;
-  //  }
-  //  if(cars[i].type == 1 && cars[i].x > width + 30) cars[i].x = random(-300, -100);
-  //  if(cars[i].type == 2 && cars[i].x < -30) cars[i].x = random(width + 100, width + 300);
-  //}
+Car[] cars = new Car[NUM_CARS];
+float timer;
+
+void drawCars() {
+  timer = millis() / 1000.0;
+  for (int i = 0; i < NUM_CARS; i++) {
+    fill(cars[i].paint);
+    rect(cars[i].x, cars[i].y, 100, 50);
+    if (cars[i].type == 1) {
+      cars[i].x += cars[i].speed;
+      if (cars[i].x > width + 100) {
+        cars[i] = new Car();
+      }
+    } else {
+      cars[i].x -= cars[i].speed;
+      if (cars[i].x < -100) {
+        cars[i] = new Car();
+      }
+    }
+  }
 }

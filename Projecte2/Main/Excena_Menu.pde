@@ -97,8 +97,7 @@ void pintaEscena(){
 void textMenu(){
   pushMatrix();
   translate(-width/2,-height/2);
+  image(salon, 0, 0);
   image(text_play, 1400, 0);
-  translate(292,512,650);
-  image(salon, 500, 0);
   popMatrix();
 }
