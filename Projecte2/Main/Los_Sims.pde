@@ -1,3 +1,4 @@
+PImage playerRight, playerLeft, playerUp, playerDown, playerRightRun, playerLeftRun, playerUpRun, playerDownRun;
 void createMap(){
  rectMode(CENTER);
  //Carretera
@@ -65,4 +66,10 @@ void drawCars() {
       }
     }
   }
+}
+
+
+void drawCharacter(){
+  rectMode(CENTER);
+  rect(width / 2, 100, 50, 50);
 }

@@ -7,6 +7,14 @@ void setup(){
   text_play = loadImage("Texto_Play.png");
   salon = loadImage("escena_casa.png");
   breakout = loadImage("Fondo breakout1.jpg");
+  playerRight = loadImage("HaciaDerechaQuieto.png");
+  playerLeft = loadImage("HaciaIzquierdaQuieto.png");
+  playerUp = loadImage("HaciaArribaQuieto.png");
+  playerDown = loadImage("HaciaAbajoQuieto.png");
+  playerRightRun = loadImage("HaciaDerechaCaminando.png");
+  playerLeftRun = loadImage("HaciaIzquierdaCaminando.png");
+  playerUpRun = loadImage("HaciaArribaCaminando.png");
+  playerDownRun = loadImage("HaciaAbajoCaminando.png");
   //Los sims
   for (int i = 0; i < NUM_CARS; i++) {
     cars[i] = new Car();
