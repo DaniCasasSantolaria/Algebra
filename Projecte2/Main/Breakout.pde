@@ -24,7 +24,7 @@ float ballStartY=HeightD/2;
 color ballColor= color(255, 0, 0);
 boolean hasLost= false;
 boolean hasWon= false;
-Ball Moe= new Ball(ballStartX, ballStartY, ballWidth, ballColor);
+Ball Moe = new Ball(ballStartX, ballStartY, ballWidth, ballColor);
 
 //Paddle
 int paddleX= widthD/2;
