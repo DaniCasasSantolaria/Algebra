@@ -9,10 +9,10 @@ String message;
 float brickX=0;
 int spaceBetweenBricks= 5;
 int numberOfBricks= 10;
-int numberOfBrickRows= 10;
-int spaceFromCeiling= 20; //space between the first row of bricks and the ceiling
+int numberOfBrickRows= 5;
+int spaceFromCeiling= 40; //space between the first row of bricks and the ceiling
 float brickWidth= (widthD-(numberOfBricks-2)*spaceBetweenBricks)/numberOfBricks;
-float brickHeight= 10;
+float brickHeight= 20;
 color brickColors[]= {color(255, 0,0), color(255, 183, 0), color(255,255,0), color(0,255,0), color(0,0,255), color(156,0,255), color(255, 0,0), color(255,183, 0), color(255,255,0), color(0,255,0)};
 color brickColor= color(255, 255, 0);
 ArrayList<Block> BasketOfBricks= new ArrayList<Block>();
@@ -30,7 +30,7 @@ Ball Moe = new Ball(ballStartX, ballStartY, ballWidth, ballColor);
 int paddleX= widthD/2;
 int paddleY= HeightD-50;
 int paddleHeight= 20;
-int paddleWidth= 80;
+int paddleWidth= 100;
 color paddleColor= color(255, 0, 255);
 Block paddle= new Block(paddleX, paddleY, paddleWidth, paddleHeight, paddleColor);
 
@@ -92,7 +92,8 @@ void displayText(String message, int x, int y, boolean isCentered) {
 void drawLose() {
   String message="You lose!";
     displayText(message, 0, height/2, true);
-    hasLost=true;
+    displayText("Press ESC and try again!", 0, height/2 + 100, true);
+    hasLost = true;
   }
   //Sumar score 
 void updateScore(boolean isNew) {
@@ -100,7 +101,9 @@ void updateScore(boolean isNew) {
   message="Score:"+score;
   displayText(message, 0, height-2, false);
   if(score==numberOfBricks*numberOfBrickRows*10) {
+    completeBreakout = true;
     displayText("You win!",0,height/2,true);
+    displayText("Press enter to go back to the menu",0,height/2 + 300,true);
     hasWon=true;
   }
 }

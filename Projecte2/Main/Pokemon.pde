@@ -1,14 +1,52 @@
 PImage playerRight, playerLeft, playerUp, playerDown, playerRightRun, playerLeftRun, playerUpRun, playerDownRun;
 PImage house1, house2, house3, house4;
+PImage busLeft, busRight, vanLeft, vanRight, taxiLeft, taxiRight, carLeft, carRight, car2Left, car2Right;
+PImage[] NPC;
 class Car {
+  PImage imageLeft, imageRight;
   color paint;
   float x, y, speed;
-  int type;
+  int type, v_height, v_width;
   
   Car() {
+    float randomImage = 2;//(int)random(4.1);
+    if(randomImage == 0){
+     imageLeft = busLeft;
+     imageRight = busRight;
+     v_height = 70; 
+     v_width = 150;
+     speed = random(1.5, 2.1);
+    }
+    else if(randomImage == 1){
+     imageLeft = vanLeft;
+     imageRight = vanRight;
+     v_height = 90; 
+     v_width = 150;
+     speed = random(1.7, 2.5);
+    }
+    else if(randomImage == 2){
+     imageLeft = taxiLeft;
+     imageRight = taxiRight;
+     v_height = 50; 
+     v_width = 120;
+     speed = random(2, 2.8);
+    }
+    else if(randomImage == 3){
+     imageLeft = carLeft;
+     imageRight = carRight;
+     v_height = 50; 
+     v_width = 130;
+     speed = random(2.5, 3.2);
+    }
+    else{
+     imageLeft = car2Left;
+     imageRight = car2Right;
+     v_height = 50; 
+     v_width = 130;
+     speed = random(2.5, 3.2);
+    }
     paint = color(random(255), random(255), random(255));
-    speed = random(1, 3.5);
-    float position = random(1);
+    float position = random(1.01);
     if (position > 0.5) {
       x = -100;
       y = (height / 2) - (300 / 4);
@@ -63,16 +101,18 @@ Car[] cars = new Car[NUM_CARS];
 float timer;
 
 void drawCars() {
+  imageMode(CENTER);
   timer = millis() / 1000.0;
   for (int i = 0; i < NUM_CARS; i++) {
     fill(cars[i].paint);
-    rect(cars[i].x, cars[i].y, 120, 60);
     if (cars[i].type == 1) {
+      image(cars[i].imageRight, cars[i].x, cars[i].y);
       cars[i].x += cars[i].speed;
       if (cars[i].x > width + 100) {
         cars[i] = new Car();
       }
     } else {
+      image(cars[i].imageLeft, cars[i].x, cars[i].y);
       cars[i].x -= cars[i].speed;
       if (cars[i].x < -100) {
         cars[i] = new Car();
@@ -91,37 +131,6 @@ class House{
   int x, y;
   int hWidth, hHeight;
 }
+
 int NUM_HOUSES = 4;
 House[] houses = new House[NUM_HOUSES];
-int height_pj = 60;
-int width_pj = 50;
-int prevSquareX, prevSquareY;
-void housesColliders(){
-  PVector min_pc = new PVector(player.x - width_pj/2.0, player.y + height_pj/2.0);
-  PVector max_pc = new PVector(player.x + width_pj/2.0, player.y - height_pj/2.0);
-  // We continue with the walls (we loop through them)
-  PVector min_houses = new PVector(0,0);
-  PVector max_houses = new PVector(0,0);
-  boolean collided;
-  for(int counter=0;counter<NUM_HOUSES;counter++){
-    min_houses.x = houses[counter].x - houses[counter].hWidth/2.0;
-    min_houses.y = houses[counter].y + houses[counter].hHeight/2.0;
-    max_houses.x = houses[counter].x + houses[counter].hWidth/2.0;
-    max_houses.y = houses[counter].y - houses[counter].hHeight/2.0;
-    // We perform the Min Max Test
-    if ((max_pc.x<min_houses.x)||(max_pc.y>min_houses.y)||
-    (max_houses.x<min_pc.x)||(max_houses.y>min_pc.y)) collided = false;
-    else collided = true;
-    fill(255,255,255);
-    if (collided){
-      if(player.y > houses[counter].y && player.x < houses[counter].x + 20 && player.x > houses[counter].x - 20) scene = 0;
-      player.x = prevSquareX;
-      player.y = prevSquareY;
-    }
-    else{
-      prevSquareX = player.x;
-      prevSquareY = player.y;
-      text("NO :(", houses[counter].x, houses[counter].y);
-    }
-  }
-}
