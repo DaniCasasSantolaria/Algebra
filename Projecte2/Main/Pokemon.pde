@@ -1,4 +1,5 @@
 PImage playerRight, playerLeft, playerUp, playerDown, playerRightRun, playerLeftRun, playerUpRun, playerDownRun;
+PImage petRight, petLeft, petUp, petDown;
 PImage house1, house2, house3, house4;
 PImage busLeft, busRight, vanLeft, vanRight, taxiLeft, taxiRight, carLeft, carRight, car2Left, car2Right;
 PImage[] NPC;
@@ -70,6 +71,25 @@ class Player{
 }
 Player player;
 
+class Pet{
+  PImage direction;
+  float x, y;
+  Pet(){
+    x = width / 2;
+    y = 100;
+    direction = petDown; 
+  }
+}
+Pet pet;
+void petMovement(){
+  image(pet.direction, pet.x, pet.y);
+  float alpha = 0.02;
+  if(sqrt((player.x - pet.x)*(player.x - pet.x) + (player.y - pet.y) * (player.y - pet.y)) > 50) {
+    pet.x = (1 - alpha) * pet.x + alpha * player.x;
+    pet.y = (1 - alpha) * pet.y + alpha * player.y;
+  }
+}
+
 void createMap(){
  rectMode(CENTER);
  //Carretera
@@ -111,7 +131,8 @@ void drawCars() {
       if (cars[i].x > width + 100) {
         cars[i] = new Car();
       }
-    } else {
+    } 
+    else {
       image(cars[i].imageLeft, cars[i].x, cars[i].y);
       cars[i].x -= cars[i].speed;
       if (cars[i].x < -100) {

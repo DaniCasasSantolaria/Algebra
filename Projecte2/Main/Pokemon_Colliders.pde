@@ -68,6 +68,8 @@ void carsColliders(){
   if (collided) {
     player.x = width / 2;
     player.y = 100;
+    pet.x = width / 2;
+    pet.y = 100;
   }
 }
 

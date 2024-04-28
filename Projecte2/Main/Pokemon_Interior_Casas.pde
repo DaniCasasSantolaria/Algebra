@@ -1,4 +1,4 @@
-PImage woodGround, groundHouse2, groundHouse3, groundHouse4, sofa1,sofa2, lamparaBlanca,sofa3,sofa4,alfombra;
+PImage woodGround, groundHouse2, groundHouse3, groundHouse4, sofa1, sofa2, whiteLamp,sofa3,sofa4,rug;
 boolean enter1 = false, enter2 = false, enter3 = false, enter4 = false;
 int NPC_x, NPC_y;
 void house1(){
@@ -6,6 +6,8 @@ void house1(){
     enter1 = true;
     player.x = width / 2;
     player.y = height - 200;
+    pet.x = width / 2;
+    pet.y = height - 160;
   }
   imageMode(CENTER); 
   //Centro
@@ -29,12 +31,15 @@ void house1(){
   //decoracion
   image(sofa1, width - 170, 170);
   image(sofa2, width-400, 100);
-  image (lamparaBlanca, width - 550, 100);
+  image (whiteLamp, width - 550, 100);
   image(NPC[houseScene], NPC_x, NPC_y);
+  petMovement();
   drawCharacter();
-  if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
+  if(player.y > height - 50){
     player.x = 230;
     player.y = 220;
+    pet.x = 230;
+    pet.y = 260;
     houseScene = 5;
     enter1 = false;
   }
@@ -44,6 +49,8 @@ void house2(){
     enter2 = true;
     player.x = width / 2;
     player.y = height - 200;
+    pet.x = width / 2;
+    pet.y = height - 160;
   }
   //Escena
   image(groundHouse2, width / 2 - 1194, height / 2);
@@ -66,12 +73,15 @@ void house2(){
   //decoracion
   image(sofa3, 200, 150);
   image(sofa4, 150, 200);
-  image (alfombra, 220,220);
+  image (rug, 220,220);
   image(NPC[houseScene], NPC_x, NPC_y);
+  petMovement();
   drawCharacter();
-  if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
+  if(player.y > height - 50){
     player.x = width - 400;
     player.y = 250;
+    pet.x = width - 400;
+    pet.y = 260;
     houseScene = 5;
     enter2 = false;
   }
@@ -83,6 +93,8 @@ void house3(){
     enter3 = true;
     player.x = width / 2;
     player.y = height - 200;
+    pet.x = width / 2;
+    pet.y = height - 160;
   }
   //Escena
   image(groundHouse3, width / 2 - 1024, height / 2);
@@ -115,12 +127,15 @@ void house3(){
   //decoracion
   image(sofa3, 200, 150);
   image(sofa4, 150, 200);
-  image (alfombra, 220,220);
+  image (rug, 220,220);
   image(NPC[houseScene], NPC_x, NPC_y);
+  petMovement();
   drawCharacter();
-  if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
+  if(player.y > height - 50){
     player.x = 200;
     player.y = height - 145;
+    pet.x = 200;
+    pet.y = height - 105;
     houseScene = 5;
     enter3 = false;
   }
@@ -132,6 +147,8 @@ void house4(){
     enter4 = true;
     player.x = width / 2;
     player.y = height - 200;
+    pet.x = width / 2;
+    pet.y = height - 160;
   }
   //Escena
   image(groundHouse4, width / 2 - 951, height / 2);
@@ -174,12 +191,15 @@ void house4(){
   //decoracion
   image(sofa1, width - 170, 170);
   image(sofa2, width-400, 100);
-  image (lamparaBlanca, width - 550, 100);
+  image (whiteLamp, width - 550, 100);
   image(NPC[houseScene], NPC_x, NPC_y);
+  petMovement();
   drawCharacter();
-  if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
+  if(player.y > height - 50){
     player.x = width - 300;
     player.y = height - 160;
+    pet.x = width - 300;
+    pet.y = height - 130;
     houseScene = 5;
     enter4 = false;
   }

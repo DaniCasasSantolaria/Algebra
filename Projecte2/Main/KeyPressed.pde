@@ -5,16 +5,19 @@ void playerMovement(){
    if(key == 'w' || key == 'W'){
      //Mira hacia arriba caminando
      player.direction = playerUpRun;
+     pet.direction = petUp;
      if(player.y >=  5) player.y -=3;
    }
    else if(key == 's' || key == 'S'){
      //Mira hacia abajo caminando
      player.direction = playerDownRun;
+     pet.direction = petDown;
      if(player.y <= height - 5) player.y +=3;
    }
    else if(key == 'd' || key == 'D'){
      //Mira hacia derecha caminando
      player.direction = playerRightRun;
+     pet.direction = petRight;
      if(player.x <= width - 5) player.x +=3;
    }
    else if(key == 'a'  || key == 'A'){
@@ -41,6 +44,7 @@ void playerMovement(){
        }
      }*/
      player.direction = playerLeftRun;
+     pet.direction = petLeft;
      if(player.x >= 5) player.x -= 3;
    }
   }

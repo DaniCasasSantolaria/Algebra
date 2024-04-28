@@ -159,8 +159,8 @@ class Ball {
   void move(int X, int Y) {
     ballX = X;
     ballY = Y;
-    speedY= 4;
-    speedX= 4;
+    speedY= 5.5;
+    speedX= 5.5;
   }
   
   //Rebote 

@@ -34,6 +34,10 @@ void setup(){
   playerLeftRun.resize(50,60);
   playerUpRun.resize(50,60);
   playerDownRun.resize(50,60);
+  petRight = loadImage("Mascota_derecha.png");
+  petLeft = loadImage("Mascota_izquierda.png"); 
+  petUp = loadImage("Mascota_arriba.png"); 
+  petDown = loadImage("Mascota_abajo.png");
   NPC = new PImage[NUM_HOUSES];
   NPC_x = width / 2;
   NPC_y = 100;
@@ -47,14 +51,14 @@ void setup(){
   house4 = loadImage("Casa4.png");
   sofa1 = loadImage("sofa1.png");
   sofa2 = loadImage("sofa2.png");
-  lamparaBlanca = loadImage("lamparaBlanca.png");
+  whiteLamp = loadImage("lamparaBlanca.png");
   sofa3 = loadImage("sofa3.png");
   sofa4 = loadImage("sofa4.png");
-  alfombra = loadImage("alfombra.png");
+  rug = loadImage("alfombra.png");
   sofa3.resize(80,0);
   sofa4.resize(50,0);
-  alfombra.resize(70,0);
-  lamparaBlanca.resize(30,0);
+  rug.resize(70,0);
+  whiteLamp.resize(30,0);
   busLeft = loadImage("Bus_izquierda.png");
   busRight = loadImage("Bus_derecha.png");
   busLeft.resize(230,230);
@@ -113,6 +117,7 @@ void setup(){
   houses[3].hWidth = 250;
   houses[3].hHeight = 70;
   player = new Player();
+  pet = new Pet();
   //Breakout
   setupBricks();
   //Puzzle
@@ -169,9 +174,11 @@ void draw(){
        createMap();
        if((player.y > houses[0].y + 30 && player.y < houses[0].y + 350) || (player.y > houses[2].y + 90)){
          drawHouses();
+         petMovement();
          drawCharacter();
        }
        else{
+         petMovement();
          drawCharacter();
          drawHouses();
        }
