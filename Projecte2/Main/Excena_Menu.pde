@@ -16,8 +16,20 @@ image(escena_pantallas, 0,0);
 
 
 imageMode(CORNER);
-image (sims, 952,20);
-image (atari, 795,710);
+if(completePokemon){
+  PImage imagenFiltrada = applyGreenFilter(sims, 80, 10, 100);
+  image(imagenFiltrada, 952, 20);
+}
+else{
+  image (sims, 952, 20);
+}
+if(completeBreakout){
+  PImage imagenFiltrada = applyGreenFilter(atari, 0, 80, 0);
+  image(imagenFiltrada, 795, 710);
+}
+else{
+  image (atari, 795, 710);
+}
 image (puzzle, 323,330);
 
 }

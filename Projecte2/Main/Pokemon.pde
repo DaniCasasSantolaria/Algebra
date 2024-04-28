@@ -9,7 +9,7 @@ class Car {
   int type, v_height, v_width;
   
   Car() {
-    float randomImage = 2;//(int)random(4.1);
+    float randomImage = (int)random(4.1);
     if(randomImage == 0){
      imageLeft = busLeft;
      imageRight = busRight;

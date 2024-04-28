@@ -52,6 +52,13 @@ void keyPressed(){
      hasClickedPlay = false;
    }
  }
+ else if(scene == 1){
+   if(completePokemon && key == 'j'){
+     completePokemon = true;
+     scene = 0;
+     houseScene = 5;
+   }
+ }
  else if(scene == 2 && completeBreakout){
   if(key == ENTER){
     scene = 0;

@@ -1,6 +1,6 @@
-PImage woodGround, groundHouse2, groundHouse3, groundHouse4;
+PImage woodGround, groundHouse2, groundHouse3, groundHouse4, sofa1,sofa2, lamparaBlanca,sofa3,sofa4,alfombra;
 boolean enter1 = false, enter2 = false, enter3 = false, enter4 = false;
-int NPC_x = width / 2, NPC_y = 100;
+int NPC_x, NPC_y;
 void house1(){
   if(!enter1){
     enter1 = true;
@@ -26,7 +26,11 @@ void house1(){
   image(woodGround, width / 2, height / 2 + 550);
   image(woodGround, width / 2 + 480, height / 2 + 550);
   image(woodGround, width / 2 + 960, height / 2 + 550);
-  image(NPC[houseScene], width / 2, 100);
+  //decoracion
+  image(sofa1, width - 170, 170);
+  image(sofa2, width-400, 100);
+  image (lamparaBlanca, width - 550, 100);
+  image(NPC[houseScene], NPC_x, NPC_y);
   drawCharacter();
   if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
     player.x = 230;
@@ -59,11 +63,15 @@ void house2(){
   image(groundHouse2, width / 2, height / 2 + 360);
   image(groundHouse2, width / 2 + 597, height / 2 + 360);
   image(groundHouse2, width / 2 + 1194, height / 2 + 360);
-  image(NPC[houseScene], width / 2, 100);
+  //decoracion
+  image(sofa3, 200, 150);
+  image(sofa4, 150, 200);
+  image (alfombra, 220,220);
+  image(NPC[houseScene], NPC_x, NPC_y);
   drawCharacter();
   if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
     player.x = width - 400;
-    player.y = 230;
+    player.y = 250;
     houseScene = 5;
     enter2 = false;
   }
@@ -104,11 +112,15 @@ void house3(){
   image(groundHouse3, width / 2, height / 2 + 576);
   image(groundHouse3, width / 2 + 512, height / 2 + 576);
   image(groundHouse3, width / 2 + 1024, height / 2 + 576);
-  image(NPC[houseScene], width / 2, 100);
+  //decoracion
+  image(sofa3, 200, 150);
+  image(sofa4, 150, 200);
+  image (alfombra, 220,220);
+  image(NPC[houseScene], NPC_x, NPC_y);
   drawCharacter();
   if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
-    player.x = 230;
-    player.y = height - 290 + 105;
+    player.x = 200;
+    player.y = height - 145;
     houseScene = 5;
     enter3 = false;
   }
@@ -159,11 +171,15 @@ void house4(){
   image(groundHouse4, width / 2 + 317, height / 2 + 422);
   image(groundHouse4, width / 2 + 634, height / 2 + 422);
   image(groundHouse4, width / 2 + 951, height / 2 + 422);
-  image(NPC[houseScene], width / 2, 100);
+  //decoracion
+  image(sofa1, width - 170, 170);
+  image(sofa2, width-400, 100);
+  image (lamparaBlanca, width - 550, 100);
+  image(NPC[houseScene], NPC_x, NPC_y);
   drawCharacter();
   if(player.x > width / 2 - 30 && player.x < width / 2 + 30 && player.y > height - 50){
     player.x = width - 300;
-    player.y = height - 250 + 35;
+    player.y = height - 160;
     houseScene = 5;
     enter4 = false;
   }

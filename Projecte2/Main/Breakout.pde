@@ -133,8 +133,8 @@ class Ball {
   float ballY;
   float ballWidth;
   color ballColor;
-  float speedY= 3.5;
-  float speedX= 3.5;
+  float speedY= 5.5;
+  float speedX= 5.5;
   
   //Constructor
   Ball(float x, float y, int Width, color Color) {

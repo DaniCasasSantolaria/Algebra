@@ -1,10 +1,10 @@
-int scene = 1;  // 0: Menú principal,
+int scene = 0;  // 0: Menú principal,
 PImage text_play, salon, breakout;
 boolean completeBreakout = false, completePuzzle = false, completePokemon = false;
 void setup(){
   // Creacion ventana
-  size(1920,1060);//Processing 3D (P3D)
-  //fullScreen();
+  //size(1920,1060);//Processing 3D (P3D)
+  fullScreen();
   //Menú
   text_play = loadImage("Texto_Play.png");
   salon = loadImage("escena_casa.png");
@@ -35,13 +35,26 @@ void setup(){
   playerUpRun.resize(50,60);
   playerDownRun.resize(50,60);
   NPC = new PImage[NUM_HOUSES];
+  NPC_x = width / 2;
+  NPC_y = 100;
   for(int i = 0; i < NUM_HOUSES; i++){
    NPC[i] = loadImage("NPC" + (i + 1) + ".png");
+   NPC[i].resize(92,108);
   }
   house1 = loadImage("Casa1.png");
   house2 = loadImage("Casa2.png");
   house3 = loadImage("Casa3.png"); 
   house4 = loadImage("Casa4.png");
+  sofa1 = loadImage("sofa1.png");
+  sofa2 = loadImage("sofa2.png");
+  lamparaBlanca = loadImage("lamparaBlanca.png");
+  sofa3 = loadImage("sofa3.png");
+  sofa4 = loadImage("sofa4.png");
+  alfombra = loadImage("alfombra.png");
+  sofa3.resize(80,0);
+  sofa4.resize(50,0);
+  alfombra.resize(70,0);
+  lamparaBlanca.resize(30,0);
   busLeft = loadImage("Bus_izquierda.png");
   busRight = loadImage("Bus_derecha.png");
   busLeft.resize(230,230);
@@ -118,6 +131,7 @@ void setup(){
   
  Collections.swap (rand,0,3);
 }
+
 float timerBreakout;
 void draw(){
  switch (scene){
@@ -135,15 +149,19 @@ void draw(){
    case 1:
      if(houseScene == 0){
        house1();
+       NPCColliders();
      }
      else if(houseScene == 1){
        house2();
+       NPCColliders();
      }
      else if(houseScene == 2){
        house3();
+       NPCColliders();
      }
      else if(houseScene == 3){
        house4();
+       NPCColliders();
      }
      else{
        pushMatrix();
