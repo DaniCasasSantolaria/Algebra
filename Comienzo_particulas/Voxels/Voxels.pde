@@ -8,16 +8,45 @@
 // Una de seguir un lider i una altra d'anar a un desti
 // Aquestes intencions faran de forces.
 
-////////////UTILITZAR VOXELS
-///////////DIVIDIR EL MAPA EN ZONES PER VEURE SI ESTA MOLT A PROP DELS VOXELS. EN EL CAS DE QUE ESTIGUI APROP CALCULAR LES FORCES
+// Afegirem 4 voxels al mig de la finestra, faran unes forces en diagonal i cap a fora.
 
 float increment_temps = 0.4;
 PVector desti;
-particula boid1;
-particula boid2;
-particula lider;
+particula boid1; // Objecte de la Classe particula
+particula boid2; // Objecte de la Classe particula
+particula lider; // Objecte de la Classe particula
+voxel primer_voxel; // Objecte de la Classe voxel
 
 // Funcions i classes
+class voxel{
+  // Atributs
+  PVector forsa_dins_voxel;
+  PVector posicio_voxel;
+  float alt_voxel, ample_voxel;
+  color color_voxel;
+  // Constructor
+  voxel(PVector f, PVector p, float alt, float amp, color c){
+    forsa_dins_voxel = new PVector(0.0, 0.0);
+    posicio_voxel = new PVector(0.0, 0.0);
+    forsa_dins_voxel.set(f);
+    posicio_voxel.set(p);
+    alt_voxel = alt;
+    ample_voxel = amp;
+    color_voxel = c;
+  }
+  // Metodes
+  void calcular_forsa_voxel(){
+    // AIXO ARA NO CAL
+  }
+  
+  void pintar_voxel(){
+    noFill();
+    stroke(color_voxel);
+    rectMode(CENTER);
+    rect(posicio_voxel.x, posicio_voxel.y, ample_voxel, alt_voxel);
+  }
+}
+
 class particula {
   // Atributs
   PVector posicio_particula;
@@ -54,7 +83,7 @@ class particula {
     vector_per_usar = new PVector(0.0,0.0);
     // Solver Euler
     // 0) Acumular les forces
-    // Força cap al desti
+    /////// Força cap al desti
     vector_per_usar.x = desti.x - posicio_particula.x;
     vector_per_usar.y = desti.y - posicio_particula.y;
     // Calcular modul
@@ -68,7 +97,7 @@ class particula {
     // Ara el vector ja és la força que necessitem per anar al destí
     acumulador_forsa.x = vector_per_usar.x;
     acumulador_forsa.y = vector_per_usar.y;
-    // Força cap al lider
+    /////// Força cap al lider
     if(!soc_lider){
       // Calculo el vector del boid al lider    
       vector_per_usar.x = lider.posicio_particula.x - posicio_particula.x;
@@ -85,7 +114,26 @@ class particula {
       acumulador_forsa.x += vector_per_usar.x;
       acumulador_forsa.y += vector_per_usar.y;
     }
-    // Força de friccio
+    /////// Força de voxels
+    // Anem a calcular els valors Xmin, Ymin, Xmax, Ymax
+    // ULL!!! Aixo esta fatal perque es podria PRECALCULAR i fer nomes 1 cop
+    // Perque aquests valors NO CANVIEN, NO depenen del boid
+    PVector xymin_voxel;
+    PVector xymax_voxel;
+    xymin_voxel = new PVector(0.0, 0.0);
+    xymax_voxel = new PVector(0.0, 0.0);
+    xymin_voxel.x = primer_voxel.posicio_voxel.x - 0.5 * primer_voxel.ample_voxel;
+    xymin_voxel.y = primer_voxel.posicio_voxel.y - 0.5 * primer_voxel.alt_voxel;
+    xymax_voxel.x = primer_voxel.posicio_voxel.x + 0.5 * primer_voxel.ample_voxel;
+    xymax_voxel.y = primer_voxel.posicio_voxel.y + 0.5 * primer_voxel.alt_voxel;
+    // He de comprobar si la particula esta dins del voxel o no
+    if(posicio_particula.x > xymin_voxel.x && posicio_particula.x < xymax_voxel.x
+       && posicio_particula.y > xymin_voxel.y && posicio_particula.y < xymax_voxel.y){
+      // Som dins del voxel
+      acumulador_forsa.x += primer_voxel.forsa_dins_voxel.x;
+      acumulador_forsa.y += primer_voxel.forsa_dins_voxel.y;
+    }
+    /////// Força de friccio
     acumulador_forsa.x += -1.0 * constant_friccio * velocitat_particula.x;
     acumulador_forsa.y += -1.0 * constant_friccio * velocitat_particula.y;
     
@@ -120,11 +168,13 @@ void setup(){
   // Inicialitzo les particules
   // Constructor = PVector p, PVector v, float m, float tam, float constant_desti, float constant_lider, color c
   boid1 = new particula(false, new PVector(width/4.0, height),
-  new PVector(0.0, 0.0), 1.0, 30.0, 0.2, 0.8, 0.5,color(255,0,0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
+  new PVector(0.0, 0.0), 1.0, 30.0, 0.2, 0.2, 0.5,color(255,0,0));  //K desti = 0.2, K lider = 0.4, K friccio = 0.02
   boid2 = new particula(false, new PVector(3.0*width/4.0, height),
-  new PVector(0.0, 0.0), 1.0, 30.0, 0.8, 0.1, 0.2,color(0,255,0));  //K desti = 0.8, K lider = 0.1, K friccio = 0.02
+  new PVector(0.0, 0.0), 1.0, 30.0, 0.8, 0.1, 0.2,color(0,255,0));  //K desti = 0.8, K lider = 0.2, K friccio = 0.02
   lider = new particula(true, new PVector(width / 2.0, height - 30),
-  new PVector(0.0, 0.0), 1.0, 45.0, 0.9, 0, 0.8,color(0,0,255));  //K desti = 0.9, K lider = 0, K friccio = 0.02
+  new PVector(0.0, 0.0), 1.0, 45.0, 0.9, 0, 0.6,color(0,0,255));  //K desti = 0.9, K lider = 0, K friccio = 0.6
+  // Inicialitzo el voxel
+  primer_voxel = new voxel(new PVector(0.0, -1.0), new PVector(width / 2, height / 2), 100.0, 150.0, color(200));
 }
 // Draw
 void draw(){
@@ -138,6 +188,7 @@ void draw(){
   boid1.pinta_particula();
   boid2.pinta_particula();
   lider.pinta_particula();
+  primer_voxel.pintar_voxel();
   //Pintar desti
   fill(255, 255, 0);
   stroke(255);
