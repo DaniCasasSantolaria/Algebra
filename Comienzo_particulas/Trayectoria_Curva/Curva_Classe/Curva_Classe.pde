@@ -5,7 +5,7 @@
 
 // Variables i objectes
 corba la_primera_corba;
-PVector lider;
+
 //Classes
 class corba{
  //Atributs
@@ -31,14 +31,14 @@ class corba{
    coefs[0].x = punts_ctrl[0].x;
    coefs[0].y = punts_ctrl[0].y;
    // C1 = -5.5 * P0 + 9 * P1 - 4.5 * P2 + P3
-   coefs[1].x = -3 * punts_ctrl[0].x + 3 * punts_ctrl[1].x;
-   coefs[1].y = -3 * punts_ctrl[0].y + 3 * punts_ctrl[1].y;
+   coefs[1].x = -5.5 * punts_ctrl[0].x + 9 * punts_ctrl[1].x - 4.5 * punts_ctrl[2].x + punts_ctrl[3].x;
+   coefs[1].y = -5.5 * punts_ctrl[0].y + 9 * punts_ctrl[1].y - 4.5 * punts_ctrl[2].y + punts_ctrl[3].y;
    // C2 = 9 * P0 - 22.5 * P1 + 18 * P2 - 4.5 * P3
-   coefs[2].x = 3 * punts_ctrl[0].x - 6 * punts_ctrl[1].x + 3 * punts_ctrl[2].x;
-   coefs[2].y = 3 * punts_ctrl[0].y - 6 * punts_ctrl[1].y + 3 * punts_ctrl[2].y;
+   coefs[2].x = 9 * punts_ctrl[0].x - 22.5 * punts_ctrl[1].x + 18 * punts_ctrl[2].x - 4.5 * punts_ctrl[3].x;
+   coefs[2].y = 9 * punts_ctrl[0].y - 22.5 * punts_ctrl[1].y + 18 * punts_ctrl[2].y - 4.5 * punts_ctrl[3].y;
    // C3 = -4.5 * P0 + 13.5 * P1 - 13.5 * P2 + 4.5 * P3
-   coefs[3].x = -1 * punts_ctrl[0].x + 3 * punts_ctrl[1].x - 3 * punts_ctrl[2].x + punts_ctrl[3].x;
-   coefs[3].y = -1 * punts_ctrl[0].y + 3 * punts_ctrl[1].y - 3 * punts_ctrl[2].y + punts_ctrl[3].y;
+   coefs[3].x = -4.5 * punts_ctrl[0].x + 13.5 * punts_ctrl[1].x - 13.5 * punts_ctrl[2].x + 4.5 * punts_ctrl[3].x;
+   coefs[3].y = -4.5 * punts_ctrl[0].y + 13.5 * punts_ctrl[1].y - 13.5 * punts_ctrl[2].y + 4.5 * punts_ctrl[3].y;
  }
  
  void pintar(){
@@ -63,22 +63,6 @@ class corba{
      point(punt_a_pintar.x, punt_a_pintar.y);
    }
  }
- 
- void pintarCaixa(){
-  stroke(255);
-  line(punts_ctrl[0].x, punts_ctrl[0].y, punts_ctrl[1].x, punts_ctrl[1].y);
-  line(punts_ctrl[1].x, punts_ctrl[1].y, punts_ctrl[3].x, punts_ctrl[3].y);
-  line(punts_ctrl[3].x, punts_ctrl[3].y, punts_ctrl[2].x, punts_ctrl[2].y);
-  line(punts_ctrl[2].x, punts_ctrl[2].y, punts_ctrl[0].x, punts_ctrl[0].y);
- }
- 
- void pintarLider(float u){
-   noStroke();
-   fill(255, 0, 255);
-   lider.x = coefs[0].x + coefs[1].x * u + coefs[2].x * sq(u) + coefs[3].x * sq(u) * u;
-   lider.y = coefs[0].y + coefs[1].y * u + coefs[2].y * sq(u) + coefs[3].y * sq(u) * u;
-   ellipse(lider.x, lider.y, 50, 50);
- }
 }
 
 
@@ -93,19 +77,12 @@ void setup(){
  p[3] = new PVector(500, 300);
  // Crido al constructor de l'objecte
  la_primera_corba = new corba(p, 100);
- la_primera_corba.calcular_coefs();
- lider = new PVector(0.0, 0.0);
 }
 
-float u = 0;
 void draw(){
  background(0);
- la_primera_corba.calcular_coefs();
- la_primera_corba.pintarCaixa();
+  la_primera_corba.calcular_coefs();   //Normalment va en el setup pero com que en aquest cas estem movent un punt de control, s'ha de posar al draw
  la_primera_corba.pintar();
- la_primera_corba.pintarLider(u);
- u += 0.001;
- if(u > 1) u = 0;
 }
 
 void mouseMoved(){
