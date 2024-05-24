@@ -1,20 +1,43 @@
 
 void keyPressed() {
-  float moveAmount = 20; // Cantidad de movimiento de la cámara
+  float moveAmount = 15; // Cantidad de movimiento de la cámara
+  float angleMoved = 3;
   switch(key) {
     case CODED:
       if (keyCode == UP) {
-        camY -= moveAmount;
+        y += moveAmount;
       } else if (keyCode == DOWN) {
-        camY += moveAmount;
+        y -= moveAmount;
       } else if (keyCode == LEFT) {
-        camX -= moveAmount;
+        x += moveAmount;
       } else if (keyCode == RIGHT) {
-        camX += moveAmount;
+        x -= moveAmount;
+      } else if (keyCode == SHIFT){
+        z += moveAmount;
+      } else if (keyCode == CONTROL){
+        z -= moveAmount;
       }
       break;
     default:
       // No coded keys
       break;
+  }
+  switch(key){
+   case 'w':
+      rotY += angleMoved; 
+      break;
+    case 's':
+      rotY -= angleMoved;
+      break;
+    case 'a':
+      rotX += angleMoved;
+      break;
+    case 'd':
+      rotX -= angleMoved;;
+      break;
+    default:
+      // No coded keys
+      break; 
+    
   }
 }

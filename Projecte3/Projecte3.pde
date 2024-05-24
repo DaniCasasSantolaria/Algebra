@@ -4,26 +4,18 @@ int NUM_PUNTS = 4;
 int NUM_CORBES = 5;
 int NUM_PARTICULES = 7;
 PVector p1[], p2[], p3[], p4[], p5[];
-PShape fish;
-PImage texture;
-float camX, camY, camZ; // Variables para la posición de la cámara
-float camTargetX, camTargetY, camTargetZ; // Variables para la dirección de la cámara
+float x, y, z;
+float rotX, rotY, rotZ;
+//PShape fish;
+//PImage texture;
 
 void setup() {
   size(1920, 1080, P3D);
 
-  fish = loadShape("Fish.obj");
-  texture = loadImage("Texture.jpg");
-  fish.setTexture(texture);
+  //fish = loadShape("Fish.obj");
+  //texture = loadImage("Texture.jpg");
+  //fish.setTexture(texture);
 
-  camX = width / 2;
-  camY = height / 2;
-  camZ = 600;
-
-  // Inicializamos la dirección de la cámara
-  camTargetX = width / 2;
-  camTargetY = height / 2;
-  camTargetZ = 0;
   // Els 4 punts de control
   corbes = new corba[NUM_CORBES];
   p1 = new PVector[NUM_PUNTS];
@@ -73,23 +65,32 @@ void setup() {
   // Constructor = PVector p, PVector v, float m, float tam, float constant_desti, float constant_lider, color c
   particulas = new particula[NUM_PARTICULES];
   for (int i = 0; i < NUM_PARTICULES; i++) {
-    particulas[i] = new particula (new PVector(lider.x - 50, lider.y - 50, lider.z), new PVector(0.0, 0.0), 
-    1.0, 20.0, 0.1, 0.9, 0, color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
+    particulas[i] = new particula (new PVector(lider.x - 50, lider.y - 50, lider.z), new PVector(0.0, 0.0),
+      1.0, 20.0, 0.1, 0.9, 0, color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
   }
+  x = 0;
+  y = 0;
+  z = 0;
+  rotX = 0;
+  rotY = 0;
+  rotZ = 0;
 }
 float theta;
 boolean hasRotate = false;
 void draw() {
   background(0);
-  //camera(camX, camY, camZ, camTargetX, camTargetY, camTargetZ, 0, 1, 0);
-  for(int i = 0; i < NUM_PARTICULES; i++){
+  translate(x, y, z);
+  rotateX(radians(rotX));
+  rotateY(radians(rotY));
+  rotateZ(radians(rotZ));
+  for (int i = 0; i < NUM_PARTICULES; i++) {
     particulas[i].calcula_particula();
     particulas[i].pinta_particula();
   }
   if (curva < NUM_CORBES) {
     //corbes[curva].calcular_coefs();
     //corbes[curva].pintarCaixa();
-    //corbes[curva].pintar();
+    corbes[curva].pintar();
     corbes[curva].pintarLider(u);
     u += 0.0025;
   } else background(255);

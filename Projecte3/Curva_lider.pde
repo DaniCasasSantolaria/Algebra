@@ -87,12 +87,11 @@ class corba {
     lider.x = coefs[0].x + coefs[1].x * u + coefs[2].x * sq(u) + coefs[3].x * sq(u) * u;
     lider.y = coefs[0].y + coefs[1].y * u + coefs[2].y * sq(u) + coefs[3].y * sq(u) * u;
     lider.z = coefs[0].z + coefs[1].z * u + coefs[2].z * sq(u) + coefs[3].z * sq(u) * u;
-    pushMatrix();
     translate(lider.x, lider.y, lider.z);
-    rotate(45);
-    rotateY(45);
-    scale(10);
-    shape(fish); 
-    popMatrix();
+    sphere(30);
+    //rotate(45);
+    //rotateY(45);
+    //scale(10);
+    //shape(fish); 
   }
 }
