@@ -60,13 +60,13 @@ void setup() {
   //
   // PARTICULAS
   //Inicialitzo el desti
-  desti = new PVector(width / 2, 100.0);
+  desti = new PVector(width, 100.0, 0.0);
   // Inicialitzo les particules
   // Constructor = PVector p, PVector v, float m, float tam, float constant_desti, float constant_lider, color c
   particulas = new particula[NUM_PARTICULES];
   for (int i = 0; i < NUM_PARTICULES; i++) {
     particulas[i] = new particula (new PVector(lider.x - 50, lider.y - 50, lider.z), new PVector(0.0, 0.0),
-      1.0, 20.0, 0.1, 0.9, 0, color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
+      1.0, 20.0, 0.1, 0.9, 0.01, color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
   }
   x = 0;
   y = 0;
@@ -75,10 +75,9 @@ void setup() {
   rotY = 0;
   rotZ = 0;
 }
-float theta;
-boolean hasRotate = false;
+
 void draw() {
-  background(0);
+  background(15);
   translate(x, y, z);
   rotateX(radians(rotX));
   rotateY(radians(rotY));
@@ -92,7 +91,7 @@ void draw() {
     //corbes[curva].pintarCaixa();
     corbes[curva].pintar();
     corbes[curva].pintarLider(u);
-    u += 0.0025;
+    u += 0.0013;
   } else background(255);
   if (u > 1) {
     u = 0;

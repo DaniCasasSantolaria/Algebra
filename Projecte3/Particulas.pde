@@ -14,6 +14,7 @@
 float increment_temps = 0.4;
 PVector desti;
 particula[] particulas;
+float MAX_VELOCITY = 3.0f;
 
 // Funcions i classes
 class particula {
@@ -106,6 +107,7 @@ class particula {
     + acceleracio_particula.y * increment_temps;
     velocitat_particula.z = velocitat_particula.z
     + acceleracio_particula.z * increment_temps;
+    velocitat_particula.limit(MAX_VELOCITY);
     // 3) Posicio
     posicio_particula.x = posicio_particula.x
     + velocitat_particula.x * increment_temps;
