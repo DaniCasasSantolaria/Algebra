@@ -65,8 +65,8 @@ void setup() {
   // Constructor = PVector p, PVector v, float m, float tam, float constant_desti, float constant_lider, color c
   particulas = new particula[NUM_PARTICULES];
   for (int i = 0; i < NUM_PARTICULES; i++) {
-    particulas[i] = new particula (new PVector(lider.x - 50, lider.y - 50, lider.z), new PVector(0.0, 0.0),
-      1.0, 20.0, 0.1, 0.9, 0.01, color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
+    particulas[i] = new particula (new PVector(random(lider.x - 50, lider.x - 150), random(lider.y - 50, lider.y - 150), random(lider.z, lider.z - 100)), 
+    new PVector(0.0, 0.0), 1.0, 20.0, 0.5, 0.4, 0.01, 50,color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
   }
   x = 0;
   y = 0;
@@ -75,6 +75,7 @@ void setup() {
   rotY = 0;
   rotZ = 0;
 }
+
 
 void draw() {
   background(15);
@@ -92,7 +93,10 @@ void draw() {
     corbes[curva].pintar();
     corbes[curva].pintarLider(u);
     u += 0.0013;
-  } else background(255);
+  } else {
+    corbes[curva].pintar();
+    corbes[curva].pintarLider(u);
+  }
   if (u > 1) {
     u = 0;
     curva++;
