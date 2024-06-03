@@ -4,9 +4,7 @@
 // Amb 4 punts de control (P0, P1, P2, P3)
 
 // Variables i objectes
-corba la_primera_corba;
 corba[] corbes;
-PVector lider;
 //Classes
 class corba {
   //Atributs
@@ -88,10 +86,11 @@ class corba {
     lider.y = coefs[0].y + coefs[1].y * u + coefs[2].y * sq(u) + coefs[3].y * sq(u) * u;
     lider.z = coefs[0].z + coefs[1].z * u + coefs[2].z * sq(u) + coefs[3].z * sq(u) * u;
     translate(lider.x, lider.y, lider.z);
+    //image(pedro, 0, 0, lider.x, lider.y);
     sphere(30);
     //rotate(45);
     //rotateY(45);
     //scale(10);
-    //shape(fish); 
+    //shape(fish);
   }
 }

@@ -3,11 +3,14 @@ int curva = 0;
 int NUM_PUNTS = 4;
 int NUM_CORBES = 5;
 int NUM_PARTICULES = 20;
+int NUM_OBJECTS = 5;
 PVector p1[], p2[], p3[], p4[], p5[];
 float x, y, z;
 float rotX, rotY, rotZ;
 //PShape fish;
 //PImage texture;
+PImage pedro;
+int typeCurve = 1;
 
 void setup() {
   size(1920, 1080, P3D);
@@ -15,7 +18,7 @@ void setup() {
   //fish = loadShape("Fish.obj");
   //texture = loadImage("Texture.jpg");
   //fish.setTexture(texture);
-
+  pedro = loadImage("Pedro.png");
   // Els 4 punts de control
   corbes = new corba[NUM_CORBES];
   p1 = new PVector[NUM_PUNTS];
@@ -57,16 +60,28 @@ void setup() {
     corbes[i].calcular_coefs();
   }
   lider = new PVector(0.0, 0.0, 0.0);
-  //
+  
+  //OBSTACULOS
+  obstacles = new Obstacle[NUM_OBJECTS];
+
+  // Inicializamos los objetos Obstacle
+  obstacles[0] = new Obstacle(250, 1000, 0, 50);
+  obstacles[1] = new Obstacle(1210, 200, 0, 50);
+  obstacles[2] = new Obstacle(800, 50, 0, 50);
+  obstacles[3] = new Obstacle(500, 900, 0, 50);
+  obstacles[4] = new Obstacle(400, 700, 200, 50);
+  
   // PARTICULAS
   //Inicialitzo el desti
   desti = new PVector(width, 100.0, 0.0);
+  punt_extra = new PVector(width, height, 100); // Define la posición estática del punto extra
   // Inicialitzo les particules
   // Constructor = PVector p, PVector v, float m, float tam, float constant_desti, float constant_lider, color c
   particulas = new particula[NUM_PARTICULES];
   for (int i = 0; i < NUM_PARTICULES; i++) {
-    particulas[i] = new particula (new PVector(random(lider.x - 50, lider.x - 150), random(lider.y - 50, lider.y - 150), random(lider.z, lider.z - 100)), 
-    new PVector(0.0, 0.0), 1.0, 20.0, 0.2, 0.8, 0.01, 50,color(random(0,255), random(0,255), random(0,255)));  //K desti, K lider, K friccio
+    particulas[i] = new particula (new PVector(random(lider.x - 50, lider.x - 150), random(lider.y - 50, lider.y - 150), random(lider.z, lider.z - 100)),
+      new PVector(0.0, 0.0), 1.0, 20.0, random(0, 0.6)/*0.2*/, random(0.5, 1)/*0.8*/, 0.7, 0.8, random(0, 0.5)/*0.9*/, 50,
+      color(random(0, 255), random(0, 255), random(0, 255)));  //K desti, K lider, K friccio, K vent, K extra
   }
   x = 0;
   y = 0;
@@ -78,31 +93,36 @@ void setup() {
 
 
 void draw() {
-  background(15);
+  background(200);
 
   if (viewMode) {
-    // Vista isométrica
-    rotateX(PI / 6); // Inclina hacia arriba
-    rotateY(PI / 4); // Rota a la derecha
-  } else if (!viewMode) {
-    // Vista ortográfica superior
-    rotateX(HALF_PI); // Mira hacia abajo
+    // Vista isomètrica
+    rotateX(radians(30));
+    rotateY(radians(45));
+  } else {
+    // Vista ortogràfica superior
+    rotateX(radians(90));
+    rotateY(radians(0));
   }
 
   translate(x, y, z);
   rotateX(radians(rotX));
   rotateY(radians(rotY));
   rotateZ(radians(rotZ));
-  
-  println("ROTX:" + rotX);    // -108
-  println("ROTY:" + rotY);    // 27
-  println("ROTZ:" + rotZ);
 
+  println("ROTX:" + rotX);
+  println("ROTY:" + rotY);
+  println("ROTZ:" + rotZ);
+  // Pintar objectes
+  for(int i = 0; i < NUM_OBJECTS; i++){
+    obstacles[i].display();
+  }
+  // Pintar particules
   for (int i = 0; i < NUM_PARTICULES; i++) {
     particulas[i].calcula_particula();
     particulas[i].pinta_particula();
   }
-
+  // Pintar lider
   if (curva < NUM_CORBES) {
     corbes[curva].pintar();
     corbes[curva].pintarLider(u);
@@ -112,7 +132,14 @@ void draw() {
     corbes[curva].pintarLider(u);
   }
 
-  if (u > 1) {
+  if (curva == NUM_CORBES - 1 && u > 0.95) {
+    u = 0;
+    for (int i = 0; i < NUM_PARTICULES; i++) {
+      particulas[i].posicio_particula.x = random(-100, 50);
+      particulas[i].posicio_particula.y = random(-100, 50);
+    }
+    curva = 0;
+  } else if (u > 1) {
     u = 0;
     curva++;
   }
