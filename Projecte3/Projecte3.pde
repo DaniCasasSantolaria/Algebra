@@ -2,7 +2,7 @@ float u = 0;
 int curva = 0;
 int NUM_PUNTS = 4;
 int NUM_CORBES = 5;
-int NUM_PARTICULES = 7;
+int NUM_PARTICULES = 20;
 PVector p1[], p2[], p3[], p4[], p5[];
 float x, y, z;
 float rotX, rotY, rotZ;
@@ -66,30 +66,44 @@ void setup() {
   particulas = new particula[NUM_PARTICULES];
   for (int i = 0; i < NUM_PARTICULES; i++) {
     particulas[i] = new particula (new PVector(random(lider.x - 50, lider.x - 150), random(lider.y - 50, lider.y - 150), random(lider.z, lider.z - 100)), 
-    new PVector(0.0, 0.0), 1.0, 20.0, 0.5, 0.4, 0.01, 50,color(255, 0, 0));  //K desti = 0.2, K lider = 0.8, K friccio = 0.02
+    new PVector(0.0, 0.0), 1.0, 20.0, 0.2, 0.8, 0.01, 50,color(random(0,255), random(0,255), random(0,255)));  //K desti, K lider, K friccio
   }
   x = 0;
   y = 0;
   z = 0;
-  rotX = 0;
-  rotY = 0;
+  rotX = -108;
+  rotY = 27;
   rotZ = 0;
 }
 
 
 void draw() {
   background(15);
+
+  if (viewMode) {
+    // Vista isométrica
+    rotateX(PI / 6); // Inclina hacia arriba
+    rotateY(PI / 4); // Rota a la derecha
+  } else if (!viewMode) {
+    // Vista ortográfica superior
+    rotateX(HALF_PI); // Mira hacia abajo
+  }
+
   translate(x, y, z);
   rotateX(radians(rotX));
   rotateY(radians(rotY));
   rotateZ(radians(rotZ));
+  
+  println("ROTX:" + rotX);    // -108
+  println("ROTY:" + rotY);    // 27
+  println("ROTZ:" + rotZ);
+
   for (int i = 0; i < NUM_PARTICULES; i++) {
     particulas[i].calcula_particula();
     particulas[i].pinta_particula();
   }
+
   if (curva < NUM_CORBES) {
-    //corbes[curva].calcular_coefs();
-    //corbes[curva].pintarCaixa();
     corbes[curva].pintar();
     corbes[curva].pintarLider(u);
     u += 0.0013;
@@ -97,6 +111,7 @@ void draw() {
     corbes[curva].pintar();
     corbes[curva].pintarLider(u);
   }
+
   if (u > 1) {
     u = 0;
     curva++;
